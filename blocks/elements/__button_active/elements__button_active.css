@@ -1,0 +1,5 @@
+.elements__button_active {
+  outline: none;
+  border: none;
+  background-color: black;
+}

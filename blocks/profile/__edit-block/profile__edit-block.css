@@ -1,0 +1,6 @@
+.profile__edit-block {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  box-sizing: border-box;
+}

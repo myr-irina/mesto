@@ -1,0 +1,9 @@
+.elements__button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.elements__button:hover{
+  opacity: 0.6;
+}
