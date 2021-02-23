@@ -1,4 +1,4 @@
-.logo__image {
+.logo {
   margin-bottom: 41px;
   display: block;
   background-image: url(../../../images/logo.svg);
@@ -11,13 +11,13 @@
   height: 33px;
 }
 
-.logo__image:hover {
+.logo:hover {
   opacity: 0.6;
 }
 
 
 @media screen and (max-width: 320px) {
-  .logo__image {
+  .logo {
     height: 24.4px;
     width: 103.74px;
     margin: 0 0 31.6px 27px;
