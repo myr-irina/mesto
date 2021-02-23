@@ -7,63 +7,32 @@ let popupInputAbout = document.querySelector('.popup__field-input-about');
 let profileTitle = document.querySelector('.profile__title');
 let profileSubtitle = document.querySelector('.profile__subtitle');
 
-function showPopup() {
+function openPopup() {
 	popup.classList.add('popup_is-opened');
+	updatePopupForm(profileTitle.innerText, profileSubtitle.innerText);
 }
 
 function closePopup() {
 	popup.classList.remove('popup_is-opened');
 }
 
-function popupFormSubmitHandler(event) {
-	event.preventDefault();
-
-	let valueName = popupInputName.value;
-	let valueAbout = popupInputAbout.value;
-
-	profileTitle.innerHTML = valueName;
-	profileSubtitle.innerHTML = valueAbout;
-
-	popup.classList.remove('popup_is-opened');
-	// console.log(valueName, 'valueName');
-	// console.log(valueAbout, 'valueAbout');
-}
-
-function initUser(name, about) {
-	// console.log(name);
-	// console.log(about);
-
-	profileTitle.innerHTML = name;
-	profileSubtitle.innerHTML = about;
-
+function updatePopupForm(name, about) {
 	popupInputName.value = name;
 	popupInputAbout.value = about;
 }
 
-initUser('Жак-Ив Кусто', 'Исследователь океана');
+function popupFormSubmitHandler(event) {
+	event.preventDefault();
 
-showPopupButton.addEventListener('click', showPopup);
+	profileTitle.textContent = popupInputName.value;
+	profileSubtitle.textContent = popupInputAbout.value;
+
+	closePopup();
+}
+
+showPopupButton.addEventListener('click', openPopup);
 closePopupButton.addEventListener('click', closePopup);
 popupForm.addEventListener('submit', popupFormSubmitHandler);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

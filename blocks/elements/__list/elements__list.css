@@ -8,7 +8,13 @@
   width: 100%;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
+  .elements__list {
+    grid-template-columns: repeat(2, minmax(0, 282px));
+  }
+}
+
+@media (max-width: 395px) {
   .elements__list {
     grid-template-columns: minmax(0, 282px);
   }

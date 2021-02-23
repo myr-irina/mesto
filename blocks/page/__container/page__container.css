@@ -8,11 +8,16 @@
   padding: 45px 0 0 0;
 }
 
+@media (min-width: 321px) and (max-width: 925px) {
+  .page__container {
+    width: calc(100% - 2 * 10px);
+  }
+}
+
 @media screen and (max-width: 320px) {
   .page__container {
     display: flex;
     justify-items: center;
-    padding: 28px 0 0 0; 
+    padding: 28px 0 0 0;
   }
 }
-
