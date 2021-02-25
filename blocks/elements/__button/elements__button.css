@@ -3,6 +3,10 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  width: 22px;
+  height: 19px;
+  padding: 0;
+  background-image: url(../../../images/like.svg);
 }
 
 .elements__button:hover{
