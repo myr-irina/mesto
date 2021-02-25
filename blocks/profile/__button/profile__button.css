@@ -6,7 +6,8 @@
   border-radius: 2px;
   background-color: black;
   cursor: pointer;
-  background-image: url(../../../images/cross.png);
+  background-image: url(../../../images/cross.svg);
+  background-size: 22px 22px;
   background-position: center;
   background-repeat: no-repeat;
   outline: none;

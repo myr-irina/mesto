@@ -8,17 +8,17 @@ let profileTitle = document.querySelector('.profile__title');
 let profileSubtitle = document.querySelector('.profile__subtitle');
 
 function openPopup() {
-	popup.classList.add('popup_is-opened');
-	updatePopupForm(profileTitle.innerText, profileSubtitle.innerText);
+  popup.classList.add('popup_is-opened');
+  updatePopupForm();
 }
 
 function closePopup() {
 	popup.classList.remove('popup_is-opened');
 }
 
-function updatePopupForm(name, about) {
-	popupInputName.value = name;
-	popupInputAbout.value = about;
+function updatePopupForm() {
+  popupInputName.value = profileTitle.textContent;
+  popupInputAbout.value = profileSubtitle.textContent;
 }
 
 function popupFormSubmitHandler(event) {

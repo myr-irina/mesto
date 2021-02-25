@@ -4,14 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Места</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body class="page">
-  <section class="page__container">
+  <div class="page__container">
 
     <header class="header page__header">
       <a class="logo" href="#" target="_self"></a>
@@ -22,26 +21,22 @@
         <img class="profile__avatar" src="./images/cousteau.jpg" alt="аватар пользователя">
         <div class="profile__info-block">
           <div class="profile__edit-block">
-            <h1 class="profile__title">
-              Жак-Ив Кусто
-            </h1>
+            <h2 class="profile__title">Жак-Ив Кусто</h2>
             <button type="button" id="show-popup" class="profile__edit-button" aria-label="кнопка редактирования"></button>
           </div>
-          <p class="profile__subtitle">
-            Исследователь океана
-          </p>
+          <p class="profile__subtitle">Исследователь океана</p>
         </div>
       </div>
-      <button class="profile__button" type="submit"></button>
+      <button class="profile__button" type="button"></button>
     </section>
 
-    <main class="elements page__elements">
+    <section class="elements page__elements">
       <ul class="elements__list">
         <li class="elements__list-item">
           <img class="elements__image" src="./images/karachaevsk.png" alt="Карачаевск">
           <div class="elements__block">
             <h2 class="elements__title">Карачаевск</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
               alt="кнопка нравится"></button>
           </div>
         </li>
@@ -51,7 +46,7 @@
 
           <div class="elements__block">
             <h2 class="elements__title">Гора Эльбрус</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
               alt="кнопка нравится">
             </button>
           </div>
@@ -60,7 +55,7 @@
           <img class="elements__image" src="./images/dombai.png" alt="Домбай">
           <div class="elements__block">
             <h2 class="elements__title">Домбай</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
                 alt="кнопка нравится">
             </button>
           </div>
@@ -69,7 +64,7 @@
           <img class="elements__image" src="./images/elbrus.png" alt="Гора Эльбрус">
           <div class="elements__block">
             <h2 class="elements__title">Гора Эльбрус</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
                 alt="кнопка нравится">
             </button>
           </div>
@@ -78,7 +73,7 @@
           <img class="elements__image" src="./images/dombai.png" alt="Домбай">
           <div class="elements__block">
             <h2 class="elements__title">Домбай</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
                 alt="кнопка нравится">
             </button>
           </div>
@@ -87,13 +82,13 @@
           <img class="elements__image" src="./images/karachaevsk.png" alt="Карачаевск">
           <div class="elements__block">
             <h2 class="elements__title">Карачаевo-Черкессия</h2>
-            <button class="elements__button" type="button"><img src="./images/like.png"
+            <button class="elements__button" type="button"><img src="./images/like.svg"
                 alt="кнопка нравится">
             </button>
           </div>
         </li>
       </ul>
-    </main>
+    </section>
 
     <footer class="footer page__footer">
       <p class="footer__copyright">
@@ -101,14 +96,14 @@
       </p>
     </footer>
 
-  </section>
+  </div>
 
   <article class="popup">
     <div class="popup__container">
 
       <button type="button" class="popup__close">
         <!-- &times;    -->
-        <img src="./images/CloseIcon.png" alt="кнопка закрытия попапа">
+        <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
       </button>
 
       <h2 class="popup__heading">Редактировать профиль</h2>

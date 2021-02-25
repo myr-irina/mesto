@@ -1,7 +1,7 @@
 .logo {
   margin-bottom: 41px;
   display: block;
-  background-image: url(../../../images/logo.svg);
+  background-image: url(./../../images/logo.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
