@@ -1,0 +1,34 @@
+.card-popup__container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 430px;
+  height: 330px;
+  width: 100%;
+  border: 1px solid black;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 34px 36px 36.51px 36px;
+}
+
+@media (max-width: 480px) {
+  .card-popup__container {
+    max-width: 350px;
+  }
+ }
+
+ @media (max-width: 391px) {
+  .card-popup__container {
+    max-width: 300px;
+  }
+ }
+
+
+@media (max-width: 320px) {
+  .card-popup__container {
+    max-width: 282px;
+    max-height: 322px;
+    padding: 25px 22px 25px 22px;
+  }
+ }

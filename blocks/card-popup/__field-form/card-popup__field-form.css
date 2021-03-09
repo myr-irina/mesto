@@ -1,0 +1,6 @@
+.card-popup__field-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+}

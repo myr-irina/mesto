@@ -27,55 +27,27 @@
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
       </div>
-      <button class="profile__button" type="button"></button>
+
+      <button class="profile__button" type="submit" id="show-card-popup"></button>
     </section>
 
     <section class="elements page__elements">
       <ul class="elements__list">
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/karachaevsk.png" alt="Карачаевск">
-          <div class="elements__block">
-            <h2 class="elements__title">Карачаевск</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/elbrus.png" alt="Гора Эльбрус">
-          <div class="elements__block">
-            <h2 class="elements__title">Гора Эльбрус</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/dombai.png" alt="Домбай">
-          <div class="elements__block">
-            <h2 class="elements__title">Домбай</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/elbrus.png" alt="Гора Эльбрус">
-          <div class="elements__block">
-            <h2 class="elements__title">Гора Эльбрус</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/dombai.png" alt="Домбай">
-          <div class="elements__block">
-            <h2 class="elements__title">Домбай</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/karachaevsk.png" alt="Карачаевск">
-          <div class="elements__block">
-            <h2 class="elements__title">Карачаевo-Черкессия</h2>
-            <button class="elements__button" type="button"></button>
-          </div>
-        </li>
+      
       </ul>
     </section>
+
+    <!-- Добавляем template для вызова картинок через JS -->
+    <template id="template">
+        <li class="elements__list-item">
+          <img class="elements__image" src="./images/arkhyz.jpg" alt="картинка">
+          <button class="elements__button-trash" type="button"></button>
+            <div class="elements__block">
+              <h2 class="elements__title">Архыз</h2>
+              <button class="elements__button" type="submit"></button>
+           </div>
+        </li>
+    </template>
 
     <footer class="footer page__footer">
       <p class="footer__copyright">
@@ -85,6 +57,7 @@
 
   </div>
 
+  <!-- Попап для редактирования формы -->
   <article class="popup">
     <div class="popup__container">
 
@@ -95,13 +68,51 @@
 
       <h2 class="popup__heading">Редактировать профиль</h2>
       <form class="popup__field-form" name="about">
-        <input class="popup__field-input popup__field-input-name" name="firstname" type="text" placeholder="Имя">
-        <input class="popup__field-input popup__field-input-about" type="text" name="jobinput" placeholder="О себе">
+        <input class="popup__field-input popup__field-input-name" name="firstname" type="text" placeholder="Имя" autocomplete="off">
+        <input class="popup__field-input popup__field-input-about" type="text" name="jobinput" placeholder="О себе" autocomplete="off">
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
 
     </div>
   </article>
+  <!-- Попап для редактирования формы -->
+
+   <!-- Попап для добавления карточек -->
+   <article class="card-popup">
+    <div class="card-popup__container">
+
+      <button type="button" class="card-popup__close">
+        <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
+      </button>
+
+      <h2 class="card-popup__heading">Новое место</h2>
+      <form class="card-popup__field-form">
+        <input class="card-popup__field-input card-popup__field-input-description" name="description" type="text" placeholder="Название" required>
+        <input class="card-popup__field-input card-popup__field-input-link" type="text" name="link" placeholder="Ссылка на картинку" required>
+        <button type="submit" class="card-popup__button">Создать</button>
+      </form>
+
+    </div>
+  </article>
+<!-- Попап для добавления карточек -->
+
+
+<!-- Попап для изображения -->
+<article class="image-popup">
+  <div class="image-popup__container">
+
+    <button type="button" class="image-popup__close">
+      <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
+    </button>
+    <figure class="image-popup__fig">
+        <img class="image-popup__pic" src="./images/arkhyz.jpg" alt="Архыз">
+        <figcaption class="image-popup__figcaption">Архыз</figcaption>
+    </figure>
+
+  </div>
+</article>
+<!-- Попап для изображения -->
+
 
   <script src="./scripts/index.js"></script>
 </body>
