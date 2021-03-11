@@ -22,7 +22,8 @@
         <div class="profile__info-block">
           <div class="profile__edit-block">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button type="button" id="show-popup" class="profile__edit-button" aria-label="кнопка редактирования"></button>
+            <button type="button" id="show-popup" class="profile__edit-button"
+              aria-label="кнопка редактирования"></button>
           </div>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
@@ -33,20 +34,20 @@
 
     <section class="elements page__elements">
       <ul class="elements__list">
-      
+
       </ul>
     </section>
 
     <!-- Добавляем template для вызова картинок через JS -->
     <template id="template">
-        <li class="elements__list-item">
-          <img class="elements__image" src="./images/arkhyz.jpg" alt="картинка">
-          <button class="elements__button-trash" type="button"></button>
-            <div class="elements__block">
-              <h2 class="elements__title">Архыз</h2>
-              <button class="elements__button" type="submit"></button>
-           </div>
-        </li>
+      <li class="elements__list-item">
+        <img class="elements__image" src="./images/arkhyz.jpg" alt="картинка">
+        <button class="elements__button-trash" type="button"></button>
+        <div class="elements__block">
+          <h2 class="elements__title">Архыз</h2>
+          <button class="elements__button" type="submit"></button>
+        </div>
+      </li>
     </template>
 
     <footer class="footer page__footer">
@@ -58,8 +59,8 @@
   </div>
 
   <!-- Попап для редактирования формы -->
-  <article class="popup">
-    <div class="popup__container">
+  <div class="popup popup_type_edit">
+    <div class="popup__content">
 
       <button type="button" class="popup__close">
         <!-- &times;    -->
@@ -68,53 +69,54 @@
 
       <h2 class="popup__heading">Редактировать профиль</h2>
       <form class="popup__field-form" name="about">
-        <input class="popup__field-input popup__field-input-name" name="firstname" type="text" placeholder="Имя" autocomplete="off">
-        <input class="popup__field-input popup__field-input-about" type="text" name="jobinput" placeholder="О себе" autocomplete="off">
+        <input class="popup__field-input popup__field-input-name" name="firstname" type="text" placeholder="Имя"
+          autocomplete="off">
+        <input class="popup__field-input popup__field-input-about" type="text" name="jobinput" placeholder="О себе"
+          autocomplete="off">
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
 
     </div>
-  </article>
+  </div>
   <!-- Попап для редактирования формы -->
 
-   <!-- Попап для добавления карточек -->
-   <article class="card-popup">
-    <div class="card-popup__container">
+  <!-- Попап для добавления карточек -->
+  <div class="popup popup_type_new-card">
+    <div class="popup__content">
 
-      <button type="button" class="card-popup__close">
+      <button type="button" class="popup__close card-popup-close">
         <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
       </button>
 
       <h2 class="card-popup__heading">Новое место</h2>
       <form class="card-popup__field-form">
-        <input class="card-popup__field-input card-popup__field-input-description" name="description" type="text" placeholder="Название" required>
-        <input class="card-popup__field-input card-popup__field-input-link" type="text" name="link" placeholder="Ссылка на картинку" required>
+        <input class="card-popup__field-input card-popup__field-input-description" name="description" type="text" autocomplete="off" placeholder="Название" required>
+        <input class="card-popup__field-input card-popup__field-input-link" type="text" name="link"
+        autocomplete="off" placeholder="Ссылка на картинку" required>
         <button type="submit" class="card-popup__button">Создать</button>
       </form>
 
     </div>
-  </article>
-<!-- Попап для добавления карточек -->
-
-
-<!-- Попап для изображения -->
-<article class="image-popup">
-  <div class="image-popup__container">
-
-    <button type="button" class="image-popup__close">
-      <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
-    </button>
-    <figure class="image-popup__fig">
-        <img class="image-popup__pic" src="./images/arkhyz.jpg" alt="Архыз">
-        <figcaption class="image-popup__figcaption">Архыз</figcaption>
-    </figure>
-
   </div>
-</article>
-<!-- Попап для изображения -->
+  <!-- Попап для добавления карточек -->
 
+  <!-- Попап для изображения -->
+  <div class="popup popup_type_image">
+    <div class="popup__content popup__content_content_image">
 
+      <button type="button" class="popup__close">
+        <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
+      </button>
+      <img class="popup__image" src="./images/arkhyz.jpg" alt="Архыз">
+      <p class="popup__caption"></p>
+     
+    </div>
+  </div>
+  <!-- Попап для изображения -->
+
+  <script src="./scripts/initial-cards.js"></script>
   <script src="./scripts/index.js"></script>
+
 </body>
 
 </html>

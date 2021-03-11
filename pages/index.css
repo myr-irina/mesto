@@ -27,16 +27,17 @@
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 @import url(../blocks/profile/__button-pic/profile__button-pic.css);
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__content/popup__content.css);
+@import url(../blocks/popup/__content/_content_image/popup__content_content_image.css);
 @import url(../blocks/popup/__heading/popup__heading.css);
 @import url(../blocks/popup/__field-input/popup__field-input.css);
 @import url(../blocks/popup/__field-form/popup__field-form.css);
 @import url(../blocks/popup/__button/popup__button.css);
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/_is-opened/popup_is-opened.css);
-@import url(../blocks/card-popup/card-popup.css);
-@import url(../blocks/card-popup/__container/card-popup__container.css);
-@import url(../blocks/card-popup/__close/card-popup__close.css);
+@import url(../blocks/popup/_type/popup_type_image.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/__caption/popup__caption.css);
 @import url(../blocks/card-popup/__heading/card-popup__heading.css);
 @import url(../blocks/card-popup/__field-form/card-popup__field-form.css);
 @import url(../blocks/card-popup/__field-input/card-popup__field-input.css);
@@ -44,14 +45,9 @@
 @import url(../blocks/card-popup/__button/card-popup__button.css);
 @import url(../blocks/elements/__button-trash/elements__button-trash.css);
 @import url(../blocks/elements/__button/_active/elements__button_active.css);
-@import url(../blocks/image-popup/image-popup.css);
-@import url(../blocks/image-popup/__container/image-popup__container.css);
 @import url(../blocks/image-popup/_is-opened/image-popup_is-opened.css);
-@import url(../blocks/image-popup/__pic/image-popup__pic.css);
-@import url(../blocks/image-popup/__close/image-popup__close.css);
-@import url(../blocks/image-popup/__figcaption/image-popup__figcaption.css);
-@import url(../blocks/image-popup/__fig/image-popup__fig.css);
 @import url(../blocks//overflow/overflow.css);
+
 
 
 
