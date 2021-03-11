@@ -43,7 +43,6 @@ showPopupButton.addEventListener("click", (event) => {
   openPopup(popup, "popup_is-opened");
   updatePopupForm();
 });
-
 closePopupButton.addEventListener("click", (event) => {
   closePopup(popup, "popup_is-opened");
 });
@@ -90,9 +89,10 @@ function createCardDomNode(item) {
 
     deleteButton.addEventListener("click", (event) => {
       event.target.closest(".elements__list-item").remove();
-      card.remove();
     });
-  }
+	}
+
+	
 
   const cardElement = templateElement.content.cloneNode(true); //через свойство content получаем доступ к содержимому template, клонируем рекурсивно элменты из template => создаем DOM Node
 
@@ -125,7 +125,7 @@ function openPopupImage(popupObj, options) {
   popupObj.img.alt = options.name;
   popupObj.name.textContent = options.name;
 
-  openPopup(popupObj.popup, classActive);
+	openPopup(popupObj.popup, classActive);
 
   popupObj.closeBtn.addEventListener(
     "click",
@@ -145,15 +145,15 @@ const closeCardPopupButton = document.querySelector(".card-popup-close");
 
 // Находим поля формы попапа карточек в DOM
 const cardPopupForm = document.querySelector(
-  ".popup_type_new-card .card-popup__field-form"
+  ".popup_type_new-card .popup__field-form-card"
 );
 
 //Находим input в форме
 const cardPopupInputDescription = cardPopupForm.querySelector(
-  ".card-popup__field-input-description"
+  ".popup__field-input-description"
 );
 const cardPopupInputLink = cardPopupForm.querySelector(
-  ".card-popup__field-input-link"
+  ".popup__field-input-link"
 );
 
 
