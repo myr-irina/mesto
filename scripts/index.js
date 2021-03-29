@@ -1,99 +1,84 @@
-// Форма Редактирования
-// Находим форму редактирования в DOM
-const popup = document.querySelector(".popup_type_edit"); //попап редактирования
-const showPopupButton = document.querySelector("#show-popup"); // кнопка попапа редактирования
-const closePopupButton = document.querySelector(".popup__close");
+// Находим модальные окна
+const popup = document.querySelector(".popup_type_edit");
+const cardPopup = document.querySelector(".popup_type_new-card");
+const imgPopup = document.querySelector(".popup_type_image");
+
+// Находим кнопки открытия модальных окон
+const showPopupButton = document.querySelector("#show-popup");
+const cardPopupOpen = document.querySelector(".profile__button");
+const imgPreviewTargetImg = imgPopup.querySelector(".popup__image");
+
+// Находим кнопки закрытия модальных окон
+const closePopupButton = popup.querySelector(".popup__close");
+const cardPopupClose = cardPopup.querySelector(".popup__close");
+const imgPopupClose = imgPopup.querySelector(".popup__close");
 
 //Находим форму в DOM
-const formElement = document.querySelector(".popup__field-form"); 
+const formElement = document.querySelector(".popup__field-form");
 const nameInput = formElement.querySelector(".popup__field-input-name");
 const jobInput = formElement.querySelector(".popup__field-input-about");
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
 
 //Находим форму для добавления карточек в DOM
-const cardPopup = document.querySelector(".popup_type_new-card");
 const cardPopupInputName = cardPopup.querySelector(".popup__field-input-description");
 const cardPopupInputLink = cardPopup.querySelector(".popup__field-input-link");
 
-const cardPopupOpen = document.querySelector(".profile__button");
-const cardPopupClose = document.querySelector(".card-popup-close");
 const cardPopupButton = document.querySelector(".popup__button");
 const container = document.querySelector(".elements__list");
 const cardPopupForm = document.querySelector("popup__field-form-card");
-// Попап изображений
-const imgPopup = document.querySelector(".popup_type_image");
-const imgPreviewTargetImg = imgPopup.querySelector(".popup__image");
-const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const imgPopupClose = imgPopup.querySelector(".popup__close");
 
+// Попап изображений
+const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
 const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item");
 
-//1.Попап для редактирования
-//функция открытия попапа карточки редактирования
-function showPopup() {
-  popup.classList.add("popup_is-opened"); //добавим класс для открытия попапа
-  updatePopupForm();
+//функция открытия модалки
+function openPopup(modal) {
+  modal.classList.add("popup_is-opened"); //добавим класс для открытия попапа
 }
 
-// функция закрытия попапа
-function closePopup() {
-  popup.classList.remove("popup_is-opened");
+// функция закрытия модалки
+function closePopup(modal) {
+  modal.classList.remove("popup_is-opened");
 }
 
-// делаем функцию обработчиком событий
-showPopupButton.addEventListener("click", showPopup); //при клике на кнопку, слушатель перехватит событие и вызовет функцию showPopup
-closePopupButton.addEventListener("click", closePopup);
+// 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
+showPopupButton.addEventListener("click", () => openPopup(popup));
+closePopupButton.addEventListener("click", () => closePopup(popup));
 
-//Вставляем значения полей с помощью textContent
+//Вставляем значения полей в модалку редактирования с помощью textContent
 function updatePopupForm() {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 }
 
-//Обработчик отправки формы
+updatePopupForm(popup);
+
+//Обработчик отправки формы для модалки редактирования
 function formSubmitHandler(evt) {
   evt.preventDefault();
 
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
 
-  closePopup();
+  closePopup(popup);
 }
 
 //Прикрепляем обработчик к форме
 formElement.addEventListener("submit", formSubmitHandler);
 
-// //2.Попап для добавления карточек
-function openCardPopup() {
-  cardPopup.classList.add("popup_is-opened"); //добавим класс для открытия попапа
-}
+// 2. обработчики функции закрытия/открытия модалки для добавления карточек
+cardPopupOpen.addEventListener("click", () => openPopup(cardPopup));
+cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
 
-// функция закрытия попапа
-function closeCardPopup() {
-  cardPopup.classList.remove("popup_is-opened");
-}
-
-cardPopupOpen.addEventListener("click", openCardPopup);
-cardPopupClose.addEventListener("click", closeCardPopup);
-
-const cardSubmitHandler = (evt) => {
-  evt.preventDefault();
-  const cardPopupInputNameValue = cardPopupInputName.value;
-  const cardPopupInputLinkSrc = cardPopupInputLink.value;
-
+//функция создания карточки
+function insertCardItem(str) {
   const cardElement = templateElement.cloneNode(true);
   const cardElementTitle = cardElement.querySelector(".elements__title");
   const cardImage = cardElement.querySelector(".elements__image");
 
-  cardElementTitle.textContent = cardPopupInputNameValue;
-  cardImage.src = cardPopupInputLinkSrc;
-
-  container.append(cardElement);
-
-  // insertCardItem(cardPopupInputNameValue, cardPopupInputLinkSrc);
-
-  closeCardPopup();
+  cardElementTitle.textContent = str.name;
+  cardImage.src = str.link;
 
   const deleteButton = cardElement.querySelector(".elements__button-trash");
   deleteButton.addEventListener("click", () => {
@@ -105,20 +90,42 @@ const cardSubmitHandler = (evt) => {
     event.target.classList.toggle("elements__button_active");
   });
 
+  container.prepend(cardElement);
+}
+
+const cardSubmitHandler = (evt) => {
+  evt.preventDefault();
+  const cardPopupInputNameValue = cardPopupInputName.value;
+  const cardPopupInputLinkSrc = cardPopupInputLink.value;
+
+
+  // const cardElement = templateElement.cloneNode(true);
+  // const cardElementTitle = cardElement.querySelector(".elements__title");
+  // const cardImage = cardElement.querySelector(".elements__image");
+
+  // cardElementTitle.textContent = cardPopupInputNameValue;
+  // cardImage.src = cardPopupInputLinkSrc;
+
+  // container.prepend(cardElement);
+
+  insertCardItem();
+
+  closePopup(cardPopup);
+
+  // const deleteButton = cardElement.querySelector(".elements__button-trash");
+  // deleteButton.addEventListener("click", () => {
+  //   cardElement.remove();
+  // });
+
+  // const likeButton = cardElement.querySelector(".elements__button");
+  // likeButton.addEventListener("click", (event) => {
+  //   event.target.classList.toggle("elements__button_active");
+  // });
+
   cardPopupInputName.value = "";
   cardPopupInputLink.value = "";
 };
 
-function insertCardItem(str) {
-  const cardElement = templateElement.cloneNode(true);
-  const cardElementTitle = cardElement.querySelector('.elements__title');
-  const cardImage = cardElement.querySelector('.elements__image');
-
-  cardElementTitle.textContent = str.name;
-  cardImage.src = str.link;
-
-  container.append(cardElement);
-}
 
 cardPopup.addEventListener("submit", cardSubmitHandler);
 
@@ -128,7 +135,7 @@ const createCardDomNode = initialCards.forEach((item) => {
   const cardImage = cardElement.querySelector(".elements__image");
 
   cardElementTitle.textContent = item.name;
-  cardImage.src = item.link;  
+  cardImage.src = item.link;
 
   const deleteButton = cardElement.querySelector(".elements__button-trash");
   deleteButton.addEventListener("click", () => {
@@ -146,17 +153,19 @@ const createCardDomNode = initialCards.forEach((item) => {
     imgPreviewTargetCaption.textContent = item.name;
 
     imgPopup.classList.add("image-popup_is-opened");
+    // openPopup(imgPopup);
   }
 
   cardImage.addEventListener("click", imageClickHandler);
-
+  
   function closeImageCardPopup() {
     imgPopup.classList.remove("image-popup_is-opened");
   }
 
   imgPopupClose.addEventListener("click", closeImageCardPopup);
 
-  container.append(cardElement);
+  // cardImage.addEventListener('click', () => openPopup(imgPopup));
+  // imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
+
+  container.prepend(cardElement);
 });
-
-
