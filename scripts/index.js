@@ -1,22 +1,22 @@
 // Находим модальные окна
-const popup = document.querySelector(".popup_type_edit");
+const profilePopup = document.querySelector(".popup_type_edit");
 const cardPopup = document.querySelector(".popup_type_new-card");
 const imgPopup = document.querySelector(".popup_type_image");
 
 // Находим кнопки открытия модальных окон
-const showPopupButton = document.querySelector("#show-popup");
+const profileOpenButton = document.querySelector("#show-popup");
 const cardPopupOpen = document.querySelector(".profile__button");
 const imgPreviewTargetImg = imgPopup.querySelector(".popup__image");
 
 // Находим кнопки закрытия модальных окон
-const closePopupButton = popup.querySelector(".popup__close");
+const profileCloseButton = profilePopup.querySelector(".popup__close");
 const cardPopupClose = cardPopup.querySelector(".popup__close");
 const imgPopupClose = imgPopup.querySelector(".popup__close");
 
 //Находим форму в DOM
-const formElement = document.querySelector(".popup__field-form");
-const nameInput = formElement.querySelector(".popup__field-input-name");
-const jobInput = formElement.querySelector(".popup__field-input-about");
+const profileFormElement = document.querySelector(".popup__field-form");
+const nameInput = profileFormElement.querySelector(".popup__field-input-name");
+const jobInput = profileFormElement.querySelector(".popup__field-input-about");
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
 
@@ -30,7 +30,7 @@ const cardPopupForm = document.querySelector("popup__field-form-card");
 
 // Попап изображений
 const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item");
+const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
 
 //функция открытия модалки
 function openPopup(modal) {
@@ -43,42 +43,66 @@ function closePopup(modal) {
 }
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
-showPopupButton.addEventListener("click", () => openPopup(popup));
-closePopupButton.addEventListener("click", () => closePopup(popup));
+profileOpenButton.addEventListener("click", () => openProfilePopup(profilePopup));
+profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
 
 //Вставляем значения полей в модалку редактирования с помощью textContent
-function updatePopupForm() {
+// function updatePopupForm() {
+//   nameInput.value = profileTitle.textContent;
+//   jobInput.value = profileSubtitle.textContent;
+// }
+
+// updatePopupForm(profilePopup);
+
+function openProfilePopup(popup) {
+  //заполняем поля формы
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
+ 
+  openPopup(popup); 
 }
 
-updatePopupForm(popup);
 
 //Обработчик отправки формы для модалки редактирования
-function formSubmitHandler(evt) {
+function handleProfileSubmit(evt) {
   evt.preventDefault();
 
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
 
-  closePopup(popup);
+  closePopup(profilePopup);
 }
 
 //Прикрепляем обработчик к форме
-formElement.addEventListener("submit", formSubmitHandler);
+profileFormElement.addEventListener("submit", handleProfileSubmit);
 
 // 2. обработчики функции закрытия/открытия модалки для добавления карточек
 cardPopupOpen.addEventListener("click", () => openPopup(cardPopup));
 cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
 
+
 //функция создания карточки
-function insertCardItem(str) {
+function insertCardItem(obj, templateElement, container) {
+
+  function imageClickHandler() {
+    imgPreviewTargetImg.src = obj.link;
+    imgPreviewTargetImg.alt = obj.name;
+    imgPreviewTargetCaption.textContent = obj.name;
+
+    openPopup(imgPopup);
+  }
+
+
   const cardElement = templateElement.cloneNode(true);
   const cardElementTitle = cardElement.querySelector(".elements__title");
   const cardImage = cardElement.querySelector(".elements__image");
 
-  cardElementTitle.textContent = str.name;
-  cardImage.src = str.link;
+
+  cardImage.addEventListener("click", imageClickHandler);
+
+  cardElementTitle.textContent = obj.name;
+  cardImage.src = obj.link;
+  cardImage.alt = obj.name;
 
   const deleteButton = cardElement.querySelector(".elements__button-trash");
   deleteButton.addEventListener("click", () => {
@@ -91,81 +115,29 @@ function insertCardItem(str) {
   });
 
   container.prepend(cardElement);
+  return cardElement;
 }
 
-const cardSubmitHandler = (evt) => {
+const handleCardSubmit = (evt) => {
   evt.preventDefault();
-  const cardPopupInputNameValue = cardPopupInputName.value;
-  const cardPopupInputLinkSrc = cardPopupInputLink.value;
 
-
-  // const cardElement = templateElement.cloneNode(true);
-  // const cardElementTitle = cardElement.querySelector(".elements__title");
-  // const cardImage = cardElement.querySelector(".elements__image");
-
-  // cardElementTitle.textContent = cardPopupInputNameValue;
-  // cardImage.src = cardPopupInputLinkSrc;
-
-  // container.prepend(cardElement);
-
-  insertCardItem();
-
+  const obj = {link: cardPopupInputLink.value, name: cardPopupInputName.value};
+  insertCardItem(obj, templateElement, container);
   closePopup(cardPopup);
 
-  // const deleteButton = cardElement.querySelector(".elements__button-trash");
-  // deleteButton.addEventListener("click", () => {
-  //   cardElement.remove();
-  // });
-
-  // const likeButton = cardElement.querySelector(".elements__button");
-  // likeButton.addEventListener("click", (event) => {
-  //   event.target.classList.toggle("elements__button_active");
-  // });
-
-  cardPopupInputName.value = "";
-  cardPopupInputLink.value = "";
+  
+  // profileFormElement.reset();
+  cardPopupInputLink.value = '';
+  cardPopupInputName.value = '';
+ 
 };
 
 
-cardPopup.addEventListener("submit", cardSubmitHandler);
+cardPopup.addEventListener("submit", handleCardSubmit);
 
-const createCardDomNode = initialCards.forEach((item) => {
-  const cardElement = templateElement.cloneNode(true);
-  const cardElementTitle = cardElement.querySelector(".elements__title");
-  const cardImage = cardElement.querySelector(".elements__image");
+imgPopupClose.addEventListener('click', () => closePopup(imgPopup));
 
-  cardElementTitle.textContent = item.name;
-  cardImage.src = item.link;
 
-  const deleteButton = cardElement.querySelector(".elements__button-trash");
-  deleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
-
-  const likeButton = cardElement.querySelector(".elements__button");
-  likeButton.addEventListener("click", (event) => {
-    event.target.classList.toggle("elements__button_active");
-  });
-
-  function imageClickHandler() {
-    imgPreviewTargetImg.src = item.link;
-    imgPreviewTargetImg.alt = item.name;
-    imgPreviewTargetCaption.textContent = item.name;
-
-    imgPopup.classList.add("image-popup_is-opened");
-    // openPopup(imgPopup);
-  }
-
-  cardImage.addEventListener("click", imageClickHandler);
-  
-  function closeImageCardPopup() {
-    imgPopup.classList.remove("image-popup_is-opened");
-  }
-
-  imgPopupClose.addEventListener("click", closeImageCardPopup);
-
-  // cardImage.addEventListener('click', () => openPopup(imgPopup));
-  // imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
-
-  container.prepend(cardElement);
+initialCards.forEach((item) => {
+  insertCardItem(item, templateElement, container);
 });
