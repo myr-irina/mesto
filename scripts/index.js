@@ -30,7 +30,9 @@ const cardPopupForm = document.querySelector("popup__field-form-card");
 
 // Попап изображений
 const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
+const templateElement = document
+  .querySelector("#template")
+  .content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
 
 //функция открытия модалки
 function openPopup(modal) {
@@ -43,25 +45,18 @@ function closePopup(modal) {
 }
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
-profileOpenButton.addEventListener("click", () => openProfilePopup(profilePopup));
+profileOpenButton.addEventListener("click", () =>
+  openProfilePopup(profilePopup)
+);
 profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
-
-//Вставляем значения полей в модалку редактирования с помощью textContent
-// function updatePopupForm() {
-//   nameInput.value = profileTitle.textContent;
-//   jobInput.value = profileSubtitle.textContent;
-// }
-
-// updatePopupForm(profilePopup);
 
 function openProfilePopup(popup) {
   //заполняем поля формы
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
- 
-  openPopup(popup); 
-}
 
+  openPopup(popup);
+}
 
 //Обработчик отправки формы для модалки редактирования
 function handleProfileSubmit(evt) {
@@ -80,10 +75,9 @@ profileFormElement.addEventListener("submit", handleProfileSubmit);
 cardPopupOpen.addEventListener("click", () => openPopup(cardPopup));
 cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
 
-
 //функция создания карточки
-function insertCardItem(obj, templateElement, container) {
-
+function createCard(obj, templateElement) {
+  //функция открытия модалки с 'проброшенными' значениями из полей формы
   function imageClickHandler() {
     imgPreviewTargetImg.src = obj.link;
     imgPreviewTargetImg.alt = obj.name;
@@ -92,52 +86,61 @@ function insertCardItem(obj, templateElement, container) {
     openPopup(imgPopup);
   }
 
-
+  //клонируем темплейт
   const cardElement = templateElement.cloneNode(true);
+  //ищем элементы темплейта
   const cardElementTitle = cardElement.querySelector(".elements__title");
   const cardImage = cardElement.querySelector(".elements__image");
 
-
+  //навешиваем обработчик для открытия модалки
   cardImage.addEventListener("click", imageClickHandler);
 
+  //присваиваем значения строк из массива
   cardElementTitle.textContent = obj.name;
   cardImage.src = obj.link;
   cardImage.alt = obj.name;
 
+  //навешиваем обработчики на кнопку удаления
   const deleteButton = cardElement.querySelector(".elements__button-trash");
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
 
+  //навешиваем обработчики на кнопку лайка
   const likeButton = cardElement.querySelector(".elements__button");
   likeButton.addEventListener("click", (event) => {
     event.target.classList.toggle("elements__button_active");
   });
 
-  container.prepend(cardElement);
   return cardElement;
 }
 
+//пройдемся по массиву методом forEach и добавим полученные элементы в контейнер
+initialCards.forEach((item) => {
+  const cardElement = createCard(item, templateElement);
+  container.prepend(cardElement);
+});
+
+//функция добавления карточки
 const handleCardSubmit = (evt) => {
   evt.preventDefault();
 
-  const obj = {link: cardPopupInputLink.value, name: cardPopupInputName.value};
-  insertCardItem(obj, templateElement, container);
+  const obj = {
+    link: cardPopupInputLink.value,
+    name: cardPopupInputName.value,
+  };
+
+  const cardElement = createCard(obj, templateElement);
+  container.prepend(cardElement);
+
   closePopup(cardPopup);
 
-  
   // profileFormElement.reset();
-  cardPopupInputLink.value = '';
-  cardPopupInputName.value = '';
- 
+  cardPopupInputLink.value = "";
+  cardPopupInputName.value = "";
 };
 
-
 cardPopup.addEventListener("submit", handleCardSubmit);
+imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
 
-imgPopupClose.addEventListener('click', () => closePopup(imgPopup));
 
-
-initialCards.forEach((item) => {
-  insertCardItem(item, templateElement, container);
-});
