@@ -67,14 +67,18 @@
         <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
       </button>
 
+      <!-- <fieldset> -->
       <h2 class="popup__heading">Редактировать профиль</h2>
-      <form class="popup__field-form" name="about">
-        <input class="popup__field-input popup__field-input-name" name="firstname" type="text" placeholder="Имя"
-          autocomplete="off">
-        <input class="popup__field-input popup__field-input-about" type="text" name="jobinput" placeholder="О себе"
-          autocomplete="off">
+      <form class="popup__field-form" action="#" name="about" novalidate>
+        <input class="popup__field-input popup__field-input-name" id="field-input-name" name="firstname" type="text"
+          placeholder="Имя" autocomplete="off" minlength="2" maxlength="40" required>
+        <span class="form__input-error">Вы пропустили это поле.</span>
+        <input class="popup__field-input popup__field-input-about" type="text" id="field-input-about" name="jobinput"
+          placeholder="О себе" autocomplete="off" minlength="2" maxlength="200" required>
+        <span class="form__input-error">Вы пропустили это поле.</span>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
+      <!-- </fieldset> -->
 
     </div>
   </div>
@@ -88,11 +92,14 @@
         <img src="./images/CloseIcon.svg" alt="кнопка закрытия попапа">
       </button>
 
-      <h2 class="popup__heading">Новое место</h2>
-      <form class="popup__field-form popup__field-form-card" id="popup__field-form-card">
+      <form class="popup__field-form popup__field-form-card" id="popup__field-form-card" novalidate>
+        <h2 class="popup__heading">Новое место</h2>
         <input class="popup__field-input popup__field-input-description" name="description" type="text"
-          autocomplete="off" placeholder="Название" required>
-        <input class="popup__field-input popup__field-input-link" type="text" name="link" autocomplete="off" placeholder="Ссылка на картинку" required>
+          autocomplete="off" id="field-input-description" placeholder="Название" required>
+        <span class="form__input-error">Вы пропустили это поле.</span>
+        <input class="popup__field-input popup__field-input-link" type="url" name="link" autocomplete="off"
+          id="field-input-link" placeholder="Ссылка на картинку" required>
+        <span class="form__input-error">Введите адрес сайта.</span>
         <button type="submit" class="popup__button">Создать</button>
       </form>
 
@@ -116,6 +123,7 @@
 
   <script src="./scripts/initial-cards.js"></script>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 
 </body>
 

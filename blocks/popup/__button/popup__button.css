@@ -7,7 +7,7 @@
   color: white;
   font-size: 18px;
   line-height: 1.22;
-  margin-top: 48px;
+  margin-top: 31px;
   padding: 14.5px 0;
   font-weight: normal;
   text-align: center;
@@ -19,6 +19,12 @@
   background-color: rgba(0, 0, 0, .8);
 }
 
+.popup__button:disabled {
+  background-color: rgba(0, 0, 0, .2);
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+
 @media (max-width: 320px) {
   .popup__button {
     font-size: 14px;
@@ -26,3 +32,4 @@
     padding: 11.5px 0;
   }
  }
+

@@ -28,11 +28,13 @@ const cardPopupButton = document.querySelector(".popup__button");
 const container = document.querySelector(".elements__list");
 const cardPopupForm = document.querySelector("popup__field-form-card");
 
+//Выберем элемент формы, на который потом повесим обработчик отправки формы
+const form = document.forms.about;
+
+
 // Попап изображений
 const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const templateElement = document
-  .querySelector("#template")
-  .content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
+const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
 
 //функция открытия модалки
 function openPopup(modal) {
