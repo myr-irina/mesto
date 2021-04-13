@@ -1,3 +1,3 @@
-.popup__field-input_invalid {
+.popup__field-input_error {
   border-bottom: 1px solid red;
 }

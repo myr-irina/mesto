@@ -44,7 +44,7 @@
 @import url(../blocks//overflow/overflow.css);
 @import url(../blocks/form/__input-error/form__input-error.css);
 @import url(../blocks/form/__input-error/_active/form__input-error_active.css);
-@import url(../blocks/popup/__field-input/_invalid/popup__field-input_invalid.css);
+@import url(../blocks/popup/__field-input/_error/popup__field-input_error.css);
 @import url(../blocks/popup/__button/_disabled/popup__button_disabled.css);
 
 

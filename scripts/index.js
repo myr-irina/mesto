@@ -21,20 +21,20 @@ const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
 
 //Находим форму для добавления карточек в DOM
-const cardPopupInputName = cardPopup.querySelector(".popup__field-input-description");
+const cardPopupInputName = cardPopup.querySelector(
+  ".popup__field-input-description"
+);
 const cardPopupInputLink = cardPopup.querySelector(".popup__field-input-link");
 
 const cardPopupButton = document.querySelector(".popup__button");
 const container = document.querySelector(".elements__list");
 const cardPopupForm = document.querySelector("popup__field-form-card");
 
-//Выберем элемент формы, на который потом повесим обработчик отправки формы
-const form = document.forms.about;
-
-
 // Попап изображений
 const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const templateElement = document.querySelector("#template").content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
+const templateElement = document
+  .querySelector("#template")
+  .content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
 
 //функция открытия модалки
 function openPopup(modal) {
@@ -44,6 +44,26 @@ function openPopup(modal) {
 // функция закрытия модалки
 function closePopup(modal) {
   modal.classList.remove("popup_is-opened");
+}
+
+//функция-обработчик на закрытия попапа по esc
+document.addEventListener("keydown", keyHandler);
+
+function keyHandler(evt) {
+  if (evt.keyCode === 27) {
+    const openedPopup = document.querySelector("popup_is-opened");
+    openedPopup.classList.remove("popup_is-opened");
+  }
+}
+
+//функция- обработчик закрытияя попапа по оверлей
+document.addEventListener("click", overlayHandler);
+
+function overlayHandler(e) {
+  if (e.target.classList.contains("popup")) {
+    const openedPopup = document.querySelector("popup_is-opened");
+    openedPopup.classList.remove("popup_is-opened");
+  }
 }
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
@@ -144,5 +164,3 @@ const handleCardSubmit = (evt) => {
 
 cardPopup.addEventListener("submit", handleCardSubmit);
 imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
-
-

@@ -1,12 +1,7 @@
 // Функция, которая добавляет класс с ошибкой (сообщение об ошибке)
-const showInputError  = (inputElement, errorMessage) => {
-  // input.classList.add('popup__field-input_invalid');
-  // //установим errorMessage в качестве значения textContent для formError
-  // errorSpanElemnt.textContent = errorMessage;
-  // errorSpanElemnt.classList.add('form__input-error_active');
-
-  const formSectionElement = inputElement.closest('.popup__field-form');
-  const errorElement = formSectionElement.querySelector('.popup__field-input');
+const showInputError  = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('popup__field-input_error');  
 
   errorElement.textContent = errorMessage;
   errorElement.classList.add('form__input-error_active');
@@ -14,11 +9,6 @@ const showInputError  = (inputElement, errorMessage) => {
 
 // Функция, которая удаляет класс с ошибкой
 const hideInputError = (inputElement) => {
-  // input.classList.remove('popup__field-input_invalid');
-  // //Если введены корректные данные, скроем сообщение об ошибке.Удалим вывод ошибки под полем
-  // errorSpanElemnt.classList.remove('form__input-error_active')
-  // //Очистим текстовое содержимое скрытой ошибки
-  // errorSpanElemnt.textContent = '';
 
   const formSectionElement = inputElement.closest('.popup__field-form');
   const errorElement = formSectionElement.querySelector('.popup__field-input');
@@ -71,9 +61,9 @@ const isValid = (inputElement) => {
 };
 
 //4.Ф-ция, которая переключает кнопку submit
-  const toggleButtonState = (inputlist, buttonElement) => {
+  const toggleButtonState = (inputList, buttonElement) => {
   const findAtLeastOneNotValid = (inputElement) => !inputElement.validity.valid;
-  const hasNotValidInput = inputlist.some(findAtLeastOneNotValid);
+  const hasNotValidInput = inputList.some(findAtLeastOneNotValid);
 
   if (hasNotValidInput) {
     buttonElement.toggleAttribute('disabled', true);
@@ -135,4 +125,7 @@ enableValidation({
   errorClass: 'popup__error_visible',
   popupClose: 'popup__close',
 });
+
+
+
 
