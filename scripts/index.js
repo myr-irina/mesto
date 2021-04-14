@@ -38,7 +38,17 @@ const templateElement = document
 
 //функция открытия модалки
 function openPopup(modal) {
-  modal.classList.add("popup_is-opened"); //добавим класс для открытия попапа
+  modal.classList.add("popup_is-opened");
+  const form = modal.querySelector(".popup__field-form");
+
+  if (!form) {
+    return;
+  }
+
+  const inputList = Array.from(form.querySelectorAll("input"));
+  const buttonElement = form.querySelector(".popup__button");
+
+  toggleButtonState(inputList, buttonElement);
 }
 
 // функция закрытия модалки
@@ -51,8 +61,9 @@ document.addEventListener("keydown", keyHandler);
 
 function keyHandler(evt) {
   if (evt.keyCode === 27) {
-    const openedPopup = document.querySelector("popup_is-opened");
-    openedPopup.classList.remove("popup_is-opened");
+    const openedPopup = document.querySelector(".popup_is-opened");
+
+    closePopup(openedPopup);
   }
 }
 
@@ -61,8 +72,9 @@ document.addEventListener("click", overlayHandler);
 
 function overlayHandler(e) {
   if (e.target.classList.contains("popup")) {
-    const openedPopup = document.querySelector("popup_is-opened");
-    openedPopup.classList.remove("popup_is-opened");
+    const openedPopup = document.querySelector(".popup_is-opened");
+
+    closePopup(openedPopup);
   }
 }
 
