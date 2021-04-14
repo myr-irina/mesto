@@ -4,7 +4,7 @@ const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
   errorElement.textContent = errorMessage;
-  errorElement.classList.add("form__input-error_active");
+  errorElement.classList.add("popup__input-error_active");
 };
 
 // Функция, которая удаляет класс с ошибкой
@@ -13,7 +13,7 @@ const hideInputError = (formElement, inputElement) => {
   // inputElement.classList.add('popup__field-input_error');
 
   errorElement.textContent = "";
-  errorElement.classList.remove("form__input-error_active");
+  errorElement.classList.remove("popup__input-error_active");
 };
 
 //5.Сделаем вывод ошибок кастомными
