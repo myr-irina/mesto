@@ -28,7 +28,8 @@ const cardPopupInputLink = cardPopup.querySelector(".popup__field-input-link");
 
 const cardPopupButton = document.querySelector(".popup__button");
 const container = document.querySelector(".elements__list");
-const cardPopupForm = document.querySelector("popup__field-form-card");
+const cardPopupForm = document.querySelector(".popup__field-form-card");
+
 
 // Попап изображений
 const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
@@ -36,31 +37,37 @@ const templateElement = document
   .querySelector("#template")
   .content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
 
+// const form = document.querySelectorAll(".popup__field-form");
+// const inputList = Array.from(form.querySelectorAll("input"));
+// const buttonElement = form.querySelector(".popup__button");
+
 //функция открытия модалки
 function openPopup(modal) {
   modal.classList.add("popup_is-opened");
-  const form = modal.querySelector(".popup__field-form");
+  document.addEventListener("keydown", keyHandler);
+  // const form = modal.querySelector(".popup__field-form");
 
-  if (!form) {
-    return;
-  }
+  // if (!form) {
+  //   return;
+  // }
 
-  const inputList = Array.from(form.querySelectorAll("input"));
-  const buttonElement = form.querySelector(".popup__button");
+  // const inputList = Array.from(form.querySelectorAll("input"));
+  // const buttonElement = form.querySelector(".popup__button");
 
-  toggleButtonState(inputList, buttonElement);
+  // toggleButtonState(inputList, buttonElement);
 }
 
 // функция закрытия модалки
 function closePopup(modal) {
   modal.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", keyHandler);
 }
 
 //функция-обработчик на закрытия попапа по esc
-document.addEventListener("keydown", keyHandler);
+
 
 function keyHandler(evt) {
-  if (evt.keyCode === 27) {
+  if (evt.key === 'Escape') {
     const openedPopup = document.querySelector(".popup_is-opened");
 
     closePopup(openedPopup);
@@ -72,24 +79,40 @@ document.addEventListener("click", overlayHandler);
 
 function overlayHandler(e) {
   if (e.target.classList.contains("popup")) {
-    const openedPopup = document.querySelector(".popup_is-opened");
-
-    closePopup(openedPopup);
+    closePopup(e.target);
   }
 }
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
-profileOpenButton.addEventListener("click", () =>
-  openProfilePopup(profilePopup)
+profileOpenButton.addEventListener("click", () => {
+ 
+  const inputElements = Array.from(profileFormElement.querySelectorAll('.popup__field-input'));
+  const buttonElement = profileFormElement.querySelector('.popup__button');
+
+  openProfilePopup(profilePopup);
+
+  inputElements.forEach((input) => {
+    
+    isValid(profileFormElement, input, 'popup__input-error_active');
+    
+  });
+
+  toggleButtonState(inputElements, buttonElement, 'popup__button_disabled');
+}
 );
+
 profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
 
-function openProfilePopup(popup) {
+function openProfilePopup(popup, formElement, inputElement) {
+  const inputList = cardPopupForm.querySelectorAll(".popup__field-input");
+  const buttonElement = cardPopupForm.querySelector(".popup__button");
   //заполняем поля формы
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 
   openPopup(popup);
+  toggleButtonState(inputList, buttonElement, 'popup__button_disabled');
+  
 }
 
 //Обработчик отправки формы для модалки редактирования
@@ -106,19 +129,41 @@ function handleProfileSubmit(evt) {
 profileFormElement.addEventListener("submit", handleProfileSubmit);
 
 // 2. обработчики функции закрытия/открытия модалки для добавления карточек
-cardPopupOpen.addEventListener("click", () => openPopup(cardPopup));
+// cardPopupOpen.addEventListener("click", () => openPopup(cardPopup));
+cardPopupOpen.addEventListener("click", () => {
+  const inputElements = Array.from(cardPopupForm.querySelectorAll('.popup__field-input'));
+  const buttonElement = cardPopupForm.querySelector('.popup__button');
+
+  openPopup(cardPopup);
+
+  inputElements.forEach((input) => {
+    input.value = "";
+    hideInputError(cardPopupForm, input, 'popup__input-error_active');    
+  });
+
+  toggleButtonState(inputElements, buttonElement, 'popup__button_disabled');
+});
+
 cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
+
+function imageClickHandler(obj) {
+  imgPreviewTargetImg.src = obj.link;
+  imgPreviewTargetImg.alt = obj.name;
+  imgPreviewTargetCaption.textContent = obj.name;
+
+  openPopup(imgPopup);
+}
 
 //функция создания карточки
 function createCard(obj, templateElement) {
   //функция открытия модалки с 'проброшенными' значениями из полей формы
-  function imageClickHandler() {
-    imgPreviewTargetImg.src = obj.link;
-    imgPreviewTargetImg.alt = obj.name;
-    imgPreviewTargetCaption.textContent = obj.name;
+  // function imageClickHandler() {
+  //   imgPreviewTargetImg.src = obj.link;
+  //   imgPreviewTargetImg.alt = obj.name;
+  //   imgPreviewTargetCaption.textContent = obj.name;
 
-    openPopup(imgPopup);
-  }
+  //   openPopup(imgPopup);
+  // }
 
   //клонируем темплейт
   const cardElement = templateElement.cloneNode(true);
@@ -127,7 +172,8 @@ function createCard(obj, templateElement) {
   const cardImage = cardElement.querySelector(".elements__image");
 
   //навешиваем обработчик для открытия модалки
-  cardImage.addEventListener("click", imageClickHandler);
+  cardImage.addEventListener("click", () => imageClickHandler(obj));
+
 
   //присваиваем значения строк из массива
   cardElementTitle.textContent = obj.name;
@@ -149,6 +195,8 @@ function createCard(obj, templateElement) {
   return cardElement;
 }
 
+
+
 //пройдемся по массиву методом forEach и добавим полученные элементы в контейнер
 initialCards.forEach((item) => {
   const cardElement = createCard(item, templateElement);
@@ -165,6 +213,7 @@ const handleCardSubmit = (evt) => {
   };
 
   const cardElement = createCard(obj, templateElement);
+
   container.prepend(cardElement);
 
   closePopup(cardPopup);
