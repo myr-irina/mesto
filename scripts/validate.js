@@ -16,12 +16,6 @@ const hideInputError = (formElement, inputElement, inputErrorClass) => {
   errorElement.classList.remove(inputErrorClass);
 };
 
-// //Функция удаления ошибок
-// const deleteTextError = (formElement) => {
-//   const inputList = formElement.querySelectorAll('.popup__field-input');
- 
-//   inputList.forEach(hideInputError);
-// }
 
 //5.Сделаем вывод ошибок кастомными
 const getErrorMessage = (inputElement) => {
@@ -85,8 +79,6 @@ const setEventListeners = (
   inactiveButtonClass,
   inputErrorClass
 ) => {
-  // const handleFormSubmit = e => e.preventDefault();
-  // formElement.addEventListener('submit', handleFormSubmit);
 
   //вешаем события на саму форму и запрщаем отправку по умолчанию
   formElement.addEventListener("submit", (evt) => {
