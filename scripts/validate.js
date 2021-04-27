@@ -80,6 +80,7 @@ const setEventListeners = (
   inputErrorClass
 ) => {
 
+
   //вешаем события на саму форму и запрщаем отправку по умолчанию
   formElement.addEventListener("submit", (evt) => {
     evt.preventDefault();

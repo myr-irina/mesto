@@ -1,24 +1,22 @@
-import Card from './cards.js';
-import initialCards from './initial-cards.js';
-import FormValidator from './formValidator.js';
+import Card from "./cards.js";
+import initialCards from "./initial-cards.js";
+import FormValidator from "./formValidator.js";
 
+const formList = Array.from(document.querySelectorAll(".popup__field-form")); 
 
-const formList = Array.from(document.querySelectorAll(this.formSelector)); //вернем массив из этих элементов
-// пройдемся по массиву методом forEach и добавим слушатель на форму
-formList.forEach((formElement) => {
-  new FormValidator({
-    formSelector: ".popup__field-form",
-    inputSelector: ".popup__field-input",
-    submitButtonSelector: ".popup__button",
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input-error_active",
-    // errorClass: "popup__error_visible",
-    // popupClose: "popup__close",
-  }, formElement)
- 
+const formsObjects = formList.map((form) => {
+  const formValidationInstance = new FormValidator(
+    {
+      inputSelector: ".popup__field-input",
+      submitButtonSelector: ".popup__button",
+      inactiveButtonClass: "popup__button_disabled",
+      inputErrorClass: "popup__input-error_active",
+    },
+    form
+  );
+  formValidationInstance.enableValidation();
+  return formValidationInstance;
 });
-
-
 
 // Находим модальные окна
 const profilePopup = document.querySelector(".popup_type_edit");
@@ -90,31 +88,20 @@ function overlayHandler(e) {
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
 profileOpenButton.addEventListener("click", () => {
-  const inputElements = Array.from(
-    profileFormElement.querySelectorAll(".popup__field-input")
-  );
-  const buttonElement = profileFormElement.querySelector(".popup__button");
-
+  formsObjects.forEach(item => item.reset())
   openProfilePopup(profilePopup);
-
-  inputElements.forEach((input) => {
-    isValid(profileFormElement, input, "popup__input-error_active");
-  });
-
-  toggleButtonState(inputElements, buttonElement, "popup__button_disabled");
 });
 
 profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
 
 function openProfilePopup(popup, formElement, inputElement) {
-  const inputList = cardPopupForm.querySelectorAll(".popup__field-input");
-  const buttonElement = cardPopupForm.querySelector(".popup__button");
-  //заполняем поля формы
+  // const inputList = cardPopupForm.querySelectorAll(".popup__field-input");
+  // const buttonElement = cardPopupForm.querySelector(".popup__button");
+  
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 
   openPopup(popup);
-  toggleButtonState(inputList, buttonElement, "popup__button_disabled");
 }
 
 //Обработчик отправки формы для модалки редактирования
@@ -130,25 +117,15 @@ function handleProfileSubmit(evt) {
 //Прикрепляем обработчик к форме
 profileFormElement.addEventListener("submit", handleProfileSubmit);
 
-// 2. обработчики функции закрытия/открытия модалки для добавления карточек
+//2. обработчики функции закрытия/открытия модалки для добавления карточек
 cardPopupOpen.addEventListener("click", () => {
-  const inputElements = Array.from(
-    cardPopupForm.querySelectorAll(".popup__field-input")
-  );
-  const buttonElement = cardPopupForm.querySelector(".popup__button");
-
+ 
   openPopup(cardPopup);
 
-  inputElements.forEach((input) => {
-    input.value = "";
-    hideInputError(cardPopupForm, input, "popup__input-error_active");
-  });
-
-  toggleButtonState(inputElements, buttonElement, "popup__button_disabled");
+  formsObjects.forEach(item => item.reset())
 });
 
 cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
-
 
 function handleCardClick(card) {
   imgPreviewTargetImg.src = card.link;
@@ -168,7 +145,6 @@ initialCards.forEach((item) => {
   container.prepend(cardElement);
 });
 
-
 //функция добавления карточки
 const handleCardSubmit = (evt) => {
   evt.preventDefault();
@@ -177,7 +153,6 @@ const handleCardSubmit = (evt) => {
     link: cardPopupInputLink.value,
     name: cardPopupInputName.value,
   };
-
 
   const cardElement = createCard(obj, templateElement);
 
@@ -192,9 +167,5 @@ const handleCardSubmit = (evt) => {
 
 cardPopup.addEventListener("submit", handleCardSubmit);
 imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
-
-//----------------------------
-
-
 
 
