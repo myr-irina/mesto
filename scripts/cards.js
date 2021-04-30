@@ -55,7 +55,6 @@ export default class Card {
     // event.stopPropagation();
     this._element.remove();
   }
-
 }
 
 

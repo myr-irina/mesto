@@ -1,60 +1,33 @@
 import Card from "./cards.js";
 import initialCards from "./initial-cards.js";
-import FormValidator from "./formValidator.js";
+import FormValidation from "./formValidator2.js";
+import {profilePopup, cardPopup, imgPopup, profileOpenButton, cardPopupOpen, imgPreviewTargetImg, profileCloseButton, cardPopupClose, imgPopupClose, nameInput, jobInput, profileTitle, profileSubtitle, cardPopupInputName, cardPopupInputLink, cardPopupButton, container, cardPopupForm, imgPreviewTargetCaption, templateElement, validationConfig} from "./variables.js";
 
-const formList = Array.from(document.querySelectorAll(".popup__field-form")); 
 
-const formsObjects = formList.map((form) => {
-  const formValidationInstance = new FormValidator(
-    {
-      inputSelector: ".popup__field-input",
-      submitButtonSelector: ".popup__button",
-      inactiveButtonClass: "popup__button_disabled",
-      inputErrorClass: "popup__input-error_active",
-    },
-    form
-  );
-  formValidationInstance.enableValidation();
-  return formValidationInstance;
-});
 
-// Находим модальные окна
-const profilePopup = document.querySelector(".popup_type_edit");
-const cardPopup = document.querySelector(".popup_type_new-card");
-const imgPopup = document.querySelector(".popup_type_image");
+// const formList = Array.from(document.querySelectorAll(".popup__field-form")); 
 
-// Находим кнопки открытия модальных окон
-const profileOpenButton = document.querySelector("#show-popup");
-const cardPopupOpen = document.querySelector(".profile__button");
-const imgPreviewTargetImg = imgPopup.querySelector(".popup__image");
+// const formsObjects = formList.map((form) => {
+//   const formValidationInstance = new FormValidator(
+//     {
+//       inputSelector: ".popup__field-input",
+//       submitButtonSelector: ".popup__button",
+//       inactiveButtonClass: "popup__button_disabled",
+//       inputErrorClass: "popup__input-error_active",
+//     },
+//     form
+//   );
+//   formValidationInstance.enableValidation();
+//   return formValidationInstance;
+// });
 
-// Находим кнопки закрытия модальных окон
-const profileCloseButton = profilePopup.querySelector(".popup__close");
-const cardPopupClose = cardPopup.querySelector(".popup__close");
-const imgPopupClose = imgPopup.querySelector(".popup__close");
 
-//Находим форму в DOM
-const profileFormElement = document.querySelector(".popup__field-form");
-const nameInput = profileFormElement.querySelector(".popup__field-input-name");
-const jobInput = profileFormElement.querySelector(".popup__field-input-about");
-const profileTitle = document.querySelector(".profile__title");
-const profileSubtitle = document.querySelector(".profile__subtitle");
 
-//Находим форму для добавления карточек в DOM
-const cardPopupInputName = cardPopup.querySelector(
-  ".popup__field-input-description"
-);
-const cardPopupInputLink = cardPopup.querySelector(".popup__field-input-link");
+const formAddCardValidator = new FormValidation(validationConfig, cardPopup);
+formAddCardValidator.enableValidation();
 
-const cardPopupButton = document.querySelector(".popup__button");
-const container = document.querySelector(".elements__list");
-const cardPopupForm = document.querySelector(".popup__field-form-card");
-
-// Попап изображений
-const imgPreviewTargetCaption = imgPopup.querySelector(".popup__caption");
-const templateElement = document
-  .querySelector("#template")
-  .content.querySelector(".elements__list-item"); //выберем элемент, который потом будем клонировать
+const formEditCardValidator = new FormValidation(validationConfig, profilePopup);
+formEditCardValidator.enableValidation();
 
 //функция открытия модалки
 function openPopup(modal) {
@@ -88,8 +61,9 @@ function overlayHandler(e) {
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
 profileOpenButton.addEventListener("click", () => {
-  formsObjects.forEach(item => item.reset())
+ 
   openProfilePopup(profilePopup);
+  formEditCardValidator();
 });
 
 profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
@@ -123,8 +97,9 @@ cardPopupOpen.addEventListener("click", () => {
   const buttonElement = cardPopupForm.querySelector(".popup__button");
 
   openPopup(cardPopup);
+  formAddCardValidator();
 
-  formsObjects.forEach(item => item.reset())
+  // formsObjects.forEach(item => item.reset())
   // inputElements.forEach((input) => {
   //   input.value = "";
   //   hideInputError(cardPopupForm, input, "popup__input-error_active");
@@ -175,8 +150,4 @@ const handleCardSubmit = (evt) => {
 cardPopup.addEventListener("submit", handleCardSubmit);
 imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
 
-//----------------------------
-
-//вернем массив из этих элементов
-// пройдемся по массиву методом forEach и добавим слушатель на форму
 
