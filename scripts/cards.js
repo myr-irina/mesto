@@ -45,14 +45,12 @@ export default class Card {
 
 
   _likeButtonClick() {
-    // event.stopPropagation();
     this._element
       .querySelector(".elements__button").
       classList.toggle("elements__button_active");
   }
 
   _deleteButtonClick() {
-    // event.stopPropagation();
     this._element.remove();
   }
 }
