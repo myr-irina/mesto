@@ -25,6 +25,7 @@ export default class Card {
 
     // Добавим данные
     this._element.querySelector(".elements__image").src = this.link;
+    this._element.querySelector(".elements__image").alt = this.name;
     this._element.querySelector(".elements__title").textContent = this.name;
 
     // Вернём элемент наружу

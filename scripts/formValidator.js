@@ -1,38 +1,32 @@
 export default class FormValidation {
   constructor(validationConfig, form) {
     this._form = form;
-    this._buttonElement = this._form.querySelector(validationConfig.submitButtonSelector);
+    this._buttonElement = this._form.querySelector(
+      validationConfig.submitButtonSelector
+    );
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
     this._inputErrorClass = validationConfig.inputErrorClass;
-    this._inputList = Array.from(this._form.querySelectorAll(validationConfig.inputSelector));
+    this._inputList = Array.from(
+      this._form.querySelectorAll(validationConfig.inputSelector)
+    );
     this._errorOutline = validationConfig.errorOutline;
-    // this.submitButton = {};
   }
 
-  _showInputError = (input, errorMessage) =>  {
+  _showInputError = (input, errorMessage) => {
     const errorElement = this._form.querySelector(`#${input.id}-error`);
 
     errorElement.textContent = errorMessage;
-
     errorElement.classList.add(this._inputErrorClass);
     input.classList.add(this._errorOutline);
   };
 
   // Этот метод удаляет класс с ошибкой
   _hideInputError = (input) => {
-    // // if (input) {
-    //   const errorElement = this.form.querySelector(`#${input.id}-error`);
+    const errorElement = this._form.querySelector(`#${input.id}-error`);
 
-    //   input.textContent = "";
-    //   errorElement.classList.remove(this._inputErrorClass);
-    // //   return;
-    // // }
-
-    this._inputList.forEach(input => {
-      const errorElement = this._form.querySelector(`#${input.id}-error`);
-      input.textContent = "";
-      errorElement.classList.remove(this._inputErrorClass);
-    })
+    input.textContent = "";
+    errorElement.classList.remove(this._inputErrorClass);
+    input.classList.remove(this._errorOutline);
   };
 
   // Этот метод добавляет класс с ошибкой (сообщение об ошибке)
@@ -61,10 +55,7 @@ export default class FormValidation {
 
   //Этот метод переключает кнопку submit
   _toggleButtonState = () => {
-    const findAtLeastOneNotValid = (input) => !input.validity.valid;
-    const hasNotValidInput = this._inputList.some(findAtLeastOneNotValid);
-
-    if (hasNotValidInput) {
+    if (this._hasNotValidInput()) {
       this._buttonElement.toggleAttribute("disabled", true);
       this._buttonElement.classList.add(this._inactiveButtonClass);
     } else {
@@ -72,6 +63,12 @@ export default class FormValidation {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
     }
   };
+
+  _hasNotValidInput() {
+    return this._inputList.some((input) => {
+      return !input.validity.valid;
+    });
+  }
 
   //Этот метод проверяет валидность поля
   _isValid = (input) => {
@@ -92,10 +89,6 @@ export default class FormValidation {
 
   _setEventListeners() {
     //вешаем события на саму форму и запрещаем отправку по умолчанию
-
-    // this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-    // this._buttonElement = this._form.querySelector(this._submitButtonSelector);
-
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
@@ -106,13 +99,12 @@ export default class FormValidation {
     });
 
     this._inputList.forEach((input) => {
-      this._toggleButtonState(),
-      this._isValid(input);
-    })
+      this._onInput(input);
+    });
   }
 
   reset() {
-    this._hideInputError();
+    this._inputList.forEach(this._hideInputError);
     this._toggleButtonState();
   }
 

@@ -20,7 +20,6 @@ import {
   container,
   cardPopupForm,
   imgPreviewTargetCaption,
-  templateElement,
   validationConfig,
   profileFormElement
 } from "./variables.js";
@@ -59,21 +58,16 @@ function overlayHandler(e) {
   }
 }
 
-//функция- обработчик закрытияя попапа по оверлей
-document.addEventListener("click", overlayHandler);
 
 // 1. навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
 profileOpenButton.addEventListener("click", () => {
  
-  openProfilePopup(profilePopup);
-  
+  openProfilePopup(profilePopup);  
 });
 
 profileCloseButton.addEventListener("click", () => closePopup(profilePopup));
 
-function openProfilePopup(popup, formElement, inputElement) {
-  // const inputList = cardPopupForm.querySelectorAll(".popup__field-input");
-  // const buttonElement = cardPopupForm.querySelector(".popup__button");
+function openProfilePopup(popup) {
   // //заполняем поля формы
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
@@ -96,21 +90,12 @@ profileFormElement.addEventListener("submit", handleProfileSubmit);
 
 //2. обработчики функции закрытия/открытия модалки для добавления карточек
 cardPopupOpen.addEventListener("click", () => {
-  // const inputElements = Array.from(cardPopupForm.querySelectorAll(".popup__field-input"));
-  // const buttonElement = cardPopupForm.querySelector(".popup__button");
+ 
   formAddCardValidator.reset();
   openPopup(cardPopup);
 
   cardPopupInputName.value = '';
-  cardPopupInputLink.value = '';
-  
-
-  // formsObjects.forEach(item => item.reset())
-  // inputElements.forEach((input) => {
-  //   input.value = "";
-  //   hideInputError(cardPopupForm, input, "popup__input-error_active");
-  // });
-
+  cardPopupInputLink.value = ''; 
 });
 
 cardPopupClose.addEventListener("click", () => closePopup(cardPopup));
@@ -129,17 +114,18 @@ function createCard(data, cardSelector, handleCardClick) {
   // Создаём карточку и возвращаем наружу
   const cardElement = card.generateCard();
 
-  // Добавляем в DOM
-  container.prepend(cardElement);
-
+  return cardElement;
 }
 
-initialCards.forEach((item) => {
-  // Создадим экземпляр карточки
-  createCard(item, "#template", handleCardClick);  
-});
+function renderList() {
+  initialCards.forEach((item) => {
+    // Создадим экземпляр карточки
+    const cardElement = createCard(item, "#template", handleCardClick);
+    container.prepend(cardElement);
+  });  
+}
 
-
+renderList();
 
 //функция добавления карточки
 const handleCardSubmit = (evt) => {
@@ -150,16 +136,21 @@ const handleCardSubmit = (evt) => {
     name: cardPopupInputName.value,
   };
 
-  createCard(obj, "#template", handleCardClick)
+  const addElements = createCard(obj, "#template", handleCardClick)
+
+  container.prepend(addElements);
 
   closePopup(cardPopup);
 
-  // profileFormElement.reset();
   cardPopupInputLink.value = "";
   cardPopupInputName.value = "";
 };
 
 cardPopup.addEventListener("submit", handleCardSubmit);
 imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
+
+profilePopup.addEventListener("click", overlayHandler); 
+cardPopup.addEventListener("click", overlayHandler); 
+imgPopup.addEventListener("click", overlayHandler); 
 
 
