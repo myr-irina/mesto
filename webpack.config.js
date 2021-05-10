@@ -31,11 +31,11 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: "asset/resource",
       },
-      {
-        test: /\.html$/,
-        loader: "html-loader",
-        exclude: "/node_modules/",
-      },
+      // {
+      //   test: /\.html$/,
+      //   loader: "html-loader",
+      //   exclude: "/node_modules/",
+      // },
       {
         test: /\.css$/,
         use: [
