@@ -45,4 +45,3 @@ export const validationConfig =  {
 };
 
 
-// export {profilePopup, cardPopup, imgPopup, profileOpenButton, cardPopupOpen, imgPreviewTargetImg, profileCloseButton, cardPopupClose, imgPopupClose, nameInput, jobInput, profileTitle, profileSubtitle, cardPopupInputName, cardPopupInputLink, cardPopupButton, container, cardPopupForm, imgPreviewTargetCaption, templateElement, validationConfig, profileFormElement};
