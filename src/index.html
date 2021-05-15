@@ -69,10 +69,10 @@
 
       <h2 class="popup__heading">Редактировать профиль</h2>
       <form class="popup__field-form" action="#" name="user" novalidate>
-        <input class="popup__field-input popup__field-input-name" id="field-input-name" name="firstname" type="text"
+        <input class="popup__field-input popup__field-input-name" id="field-input-name" name="name" type="text"
           placeholder="Имя" autocomplete="off" minlength="2" maxlength="40" required>
         <span class="popup__input-error" id="field-input-name-error">Вы пропустили это поле.</span>
-        <input class="popup__field-input popup__field-input-about" type="text" id="field-input-about" name="jobinput"
+        <input class="popup__field-input popup__field-input-about" type="text" id="field-input-about" name="about"
           placeholder="О себе" autocomplete="off" minlength="2" maxlength="200" required>
         <span class="popup__input-error" id="field-input-about-error">Вы пропустили это поле.</span>
         <button type="submit" class="popup__button">Сохранить</button>
@@ -90,9 +90,9 @@
         <img src="<%=require("./images/CloseIcon.svg")%>" alt="кнопка закрытия попапа">
       </button>
 
-      <form class="popup__field-form popup__field-form-card" name="new" id="popup__field-form-card" novalidate>
+      <form class="popup__field-form popup__field-form-card" name="name" id="popup__field-form-card" novalidate>
         <h2 class="popup__heading">Новое место</h2>
-        <input class="popup__field-input popup__field-input-description" name="description" type="text"
+        <input class="popup__field-input popup__field-input-description" name="name" type="text"
           autocomplete="off" id="field-input-description" placeholder="Название" required>
         <span class="popup__input-error" id="field-input-description-error">Вы пропустили это поле.</span>
         <input class="popup__field-input popup__field-input-link" type="url" name="link" autocomplete="off"

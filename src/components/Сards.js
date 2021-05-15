@@ -10,8 +10,6 @@ export default class Card {
   _getTemplate() {
     // забираем размеку из HTML и клонируем элемент
     const cardElement = this._cardSelector.cloneNode(true);
-    console.log(cardElement)
-
     // вернём DOM-элемент карточки
     return cardElement;
   }
