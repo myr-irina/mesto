@@ -105,7 +105,7 @@ export default class FormValidation {
 
   reset() {
     this._inputList.forEach(this._hideInputError);
-    this._toggleButtonState();
+    this._toggleButtonState();   
   }
 
   enableValidation() {

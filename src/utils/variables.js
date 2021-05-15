@@ -7,6 +7,7 @@ export const imgPopup = document.querySelector(".popup_type_image");
 export const profileOpenButton = document.querySelector("#show-popup");
 export const cardPopupOpen = document.querySelector(".profile__button");
 export const imgPreviewTargetImg = imgPopup.querySelector(".popup__image");
+export const elementImage = document.querySelector('elements__image');
 
 // Находим кнопки закрытия модальных окон
 export const profileCloseButton = profilePopup.querySelector(".popup__close");

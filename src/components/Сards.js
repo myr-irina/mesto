@@ -9,11 +9,8 @@ export default class Card {
 
   _getTemplate() {
     // забираем размеку из HTML и клонируем элемент
-   
-    const cardElement = this._cardSelector
-      .cloneNode(true);
+    const cardElement = this._cardSelector.cloneNode(true);
 
-      
     // вернём DOM-элемент карточки
     return cardElement;
   }
@@ -33,28 +30,32 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector(".elements__button").addEventListener('click', (event) => {
-      this._likeButtonClick(event);
-    });
+    this._element
+      .querySelector(".elements__button")
+      .addEventListener("click", (event) => {
+        this._likeButtonClick(event);
+      });
 
-    this._element.querySelector(".elements__button-trash").addEventListener('click', (event) => {
-      this._deleteButtonClick(event);
-    });
+    this._element
+      .querySelector(".elements__button-trash")
+      .addEventListener("click", (event) => {
+        this._deleteButtonClick(event);
+      });
 
-    this._element.querySelector('.elements__image').addEventListener('click', () => this._handleCardClick(this._name, this._link));
+    this._element
+      .querySelector(".elements__image")
+      .addEventListener("click", () =>
+        this._handleCardClick(this._name, this._link)
+      );
   }
-
 
   _likeButtonClick() {
     this._element
-      .querySelector(".elements__button").
-      classList.toggle("elements__button_active");
+      .querySelector(".elements__button")
+      .classList.toggle("elements__button_active");
   }
 
   _deleteButtonClick() {
     this._element.remove();
   }
 }
-
-
-

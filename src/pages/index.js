@@ -23,107 +23,136 @@ import {
   validationConfig,
   profileFormElement,
   templateElement,
+  elementImage,
+  cardPopupButton,
 } from "../utils/variables.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from '../components/UserInfo.js';
+import UserInfo from "../components/UserInfo.js";
 
 import "./index.css";
 
+const formAddCardValidator = new FormValidation(
+  validationConfig,
+  cardPopupForm
+);
 
-// --создадим экземпляр класса Section 
+const formEditCardValidator = new FormValidation(
+  validationConfig,
+  profileFormElement
+);
+
 const cardsList = new Section(
   {
     items: initialCards,
     renderer: (data, cardsList) => {
       const card = new Card(data, templateElement, () => {});
 
-      // Создаём карточку и возвращаем наружу
       const cardElement = card.generateCard();
-    
-    cardsList.addItem(cardElement);
+      cardsList.addItem(cardElement);
     },
   },
   container
 );
 
-// отрисовка карточек
-cardsList.renderItems();
+const userinfo = new UserInfo({
+  name: ".profile__title",
+  job: ".profile__subtitle",
+});
 
-
-// function renderList() {
-//   initialCards.forEach((item) => {
-//     // Создадим экземпляр карточки
-//     const cardElement = cardsList(item, "#template", cardImageClickhandler);
-//     container.prepend(cardElement);
-//   });
-// }
-
-
-// // инстанс класса PopupWithImage
-// const popupWithImage = new PopupWithImage(".popup_type_image");
-
-// popupWithImage.setEventListeners();
-
-// function addCardSubmitHandler(data, cardSelector, handleCardClick) {
-//   const card = new Card(data, cardSelector, handleCardClick);
-//   // Создаём карточку и возвращаем наружу
-//   const cardElement = card.generateCard();
-//   container.prepend(cardElement);
-// }
-
-// ----инстанс класса PopupWithForm
-
-function editCardSubmitHandler() {
-  nameInput.value = profileTitle.textContent;
-
-  jobInput.value = profileSubtitle.textContent;
-  formEditCardValidator.reset();
-}
-
-// const addCardPopup = new PopupWithForm('.popup_type_new-card', addCardSubmitHandler);
-// const editProfilePopup = new PopupWithForm('.popup_type_edit', editCardSubmitHandler);
-
+const popupWithImage = new PopupWithImage(".popup_type_image");
+const addCardPopup = new PopupWithForm(
+  ".popup_type_new-card",
+  addCardSubmitHandler
+);
 const editProfilePopup = new PopupWithForm(
   ".popup_type_edit",
   editFormSubmitHandler
 );
 
-function editFormSubmitHandler(data) {
-  userinfo.setUserInfo(data); // еще нужно написать getUserInfo, который возвращает данные пользователя(setUserInfo - меняет данные пользователя)
-}
+cardsList.renderItems();
 
-function cardImageClickHandler(name, link) {
-  popupWithImage.open(name, link);
-}
-
-cardPopupOpen.addEventListener('click', () =>{
+profileOpenButton.addEventListener("click", () => {
   editProfilePopup.open();
-})
 
+  const userInfo = userinfo.getUserInfo();
 
+  editProfilePopup.setInputValues({
+    firstname: userInfo.name,
+    jobinput: userInfo.job,
+  });
+
+  formEditCardValidator.reset();
+});
+
+function editFormSubmitHandler({ firstname, jobinput }) {
+  userinfo.setUserInfo(firstname, jobinput);
+  editProfilePopup.close();
+}
+
+// const createCard = (item) => {
+//   const card = new Card({ image: item.link, text: item.name },
+//     templateElement,
+//       {
+//           handleCardClick() {
+//             popupWithImage.open(item.link, item.name);
+//           }
+//       }
+//   );
+//   const cardElement = card.generateCard();
+//   return cardElement;
+// }
+
+// function addCardSubmitHandler({name, link}) {
+//   const cardAdded = new Section({
+//     items: [name, link],
+//     renderer: (data, cardAdded) => {
+//       const card = new Card(data, templateElement, () => {});
+
+//       const cardElement = card.generateCard();
+//       cardAdded.addItem(cardElement);
+//     }
+//   }, container);
+//   cardAdded.renderItems();
+//   addCardPopup.close();
+// }
+
+// elementImage.addEventListener('click', () => {
+//   popupWithImage.open();
+
+// })
+
+// function cardImageClickHandler(name, link) { //нужно добавить 3-им аргументом в new Card
+//   popupWithImage.open(name, link);
+// }
+
+// ----инстанс класса PopupWithForm для addCard
+function addCardSubmitHandler(data) {
+  const card = new Card(data);
+  const cardElement = card.generateCard();
+
+  container.prepend(cardElement);
+}
+
+cardPopupOpen.addEventListener("click", () => {
+  addCardPopup.open();
+  formAddCardValidator.reset();
+});
+
+// ----инстанс класса PopupWithForm для editCard
+// function editProfileSubmitHandler() {
+//   nameInput.value = profileTitle.textContent;
+//   jobInput.value = profileSubtitle.textContent;
+
+//   formEditCardValidator.reset();
+// }
 
 // ----инстанс класса UserInfo
 
-const userinfo = new UserInfo({
-  name: ".popup__field-input-name",
-  job: ".popup__field-input-about",
-});
-
-
 // -----валидация форм---------
-const formAddCardValidator = new FormValidation(
-  validationConfig,
-  cardPopupForm
-);
 
 formAddCardValidator.enableValidation();
-
-const formEditCardValidator = new FormValidation(
-  validationConfig,
-  profileFormElement
-);
 
 formEditCardValidator.enableValidation();
 
@@ -147,12 +176,6 @@ formEditCardValidator.enableValidation();
 //     closePopup(openedPopup);
 //   }
 // }
-
-function overlayHandler(e) {
-  if (e.target.classList.contains("popup")) {
-    closePopup(e.target);
-  }
-}
 
 // // навешиваем обработчики событий на кнопки открытия и закрытия модалки редактирования
 // profileOpenButton.addEventListener("click", () => {
@@ -222,8 +245,6 @@ function overlayHandler(e) {
 
 // ------------------
 
-
-
 // //функция добавления карточки
 // const handleCardSubmit = (evt) => {
 //   evt.preventDefault();
@@ -246,10 +267,12 @@ function overlayHandler(e) {
 // cardPopup.addEventListener("submit", handleCardSubmit);
 // imgPopupClose.addEventListener("click", () => closePopup(imgPopup));
 
-profilePopup.addEventListener("click", overlayHandler);
-cardPopup.addEventListener("click", overlayHandler);
-imgPopup.addEventListener("click", overlayHandler);
+// function overlayHandler(e) {
+//   if (e.target.classList.contains("popup")) {
+//     closePopup(e.target);
+//   }
+// }
 
-
- 
-
+// profilePopup.addEventListener("click", overlayHandler);
+// cardPopup.addEventListener("click", overlayHandler);
+// imgPopup.addEventListener("click", overlayHandler);
