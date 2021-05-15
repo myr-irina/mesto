@@ -10,7 +10,7 @@ export default class Section {
   renderItems() {
     // Переберем массив _renderedItems
     this._renderedItems.forEach((item) => {
-      this._renderer(item, this); //// вызываем renderer, передав item
+      this._renderer(item); //// вызываем renderer, передав item
     });
   } 
 

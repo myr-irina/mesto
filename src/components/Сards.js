@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, { handleCardClick }) {
     // добавили вторым параметром селектор template-элемента
     this.name = data.name;
     this.link = data.link;
@@ -10,6 +10,7 @@ export default class Card {
   _getTemplate() {
     // забираем размеку из HTML и клонируем элемент
     const cardElement = this._cardSelector.cloneNode(true);
+    console.log(cardElement)
 
     // вернём DOM-элемент карточки
     return cardElement;
@@ -27,6 +28,16 @@ export default class Card {
 
     // Вернём элемент наружу
     return this._element;
+  }
+
+  _likeButtonClick() {
+    this._element
+      .querySelector(".elements__button")
+      .classList.toggle("elements__button_active");
+  }
+
+  _deleteButtonClick() {
+    this._element.remove();
   }
 
   _setEventListeners() {
@@ -47,15 +58,5 @@ export default class Card {
       .addEventListener("click", () =>
         this._handleCardClick(this._name, this._link)
       );
-  }
-
-  _likeButtonClick() {
-    this._element
-      .querySelector(".elements__button")
-      .classList.toggle("elements__button_active");
-  }
-
-  _deleteButtonClick() {
-    this._element.remove();
   }
 }

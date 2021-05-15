@@ -43,18 +43,27 @@ const formEditCardValidator = new FormValidation(
   profileFormElement
 );
 
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (data, cardsList) => {
-      const card = new Card(data, templateElement, () => {});
-
-      const cardElement = card.generateCard();
-      cardsList.addItem(cardElement);
+const createCard = (data) => {
+  const card = new Card({ data }, templateElement, {
+    handleCardClick() {
+      popupWithImage.open({ data });
     },
+  });
+  
+  const cardElement = card.generateCard();
+ 
+  return cardElement;
+};
+
+
+
+const cardsList = new Section({
+  items: initialCards,
+  renderer: (data, cardsList) => {
+    const cardElement = createCard(data);
+    cardsList.addItem(cardElement);
   },
-  container
-);
+});
 
 const userinfo = new UserInfo({
   name: ".profile__title",
@@ -70,8 +79,6 @@ const editProfilePopup = new PopupWithForm(
   ".popup_type_edit",
   editFormSubmitHandler
 );
-
-cardsList.renderItems();
 
 profileOpenButton.addEventListener("click", () => {
   editProfilePopup.open();
@@ -91,18 +98,34 @@ function editFormSubmitHandler({ firstname, jobinput }) {
   editProfilePopup.close();
 }
 
-// const createCard = (item) => {
-//   const card = new Card({ image: item.link, text: item.name },
-//     templateElement,
-//       {
-//           handleCardClick() {
-//             popupWithImage.open(item.link, item.name);
-//           }
-//       }
-//   );
-//   const cardElement = card.generateCard();
-//   return cardElement;
-// }
+function addCardSubmitHandler(data) {
+  const card = new Card(data);
+  const cardElement = card.generateCard();
+
+  container.prepend(cardElement);
+}
+
+cardPopupOpen.addEventListener("click", () => {
+  addCardPopup.open();
+  formAddCardValidator.reset();
+});
+
+cardsList.renderItems();
+formAddCardValidator.enableValidation();
+formEditCardValidator.enableValidation();
+
+// const cardsList = new Section(
+//   {
+//     items: initialCards,
+//     renderer: (data, cardsList) => {
+//       const card = new Card(data, templateElement, () => {});
+
+//       const cardElement = card.generateCard();
+//       cardsList.addItem(cardElement);
+//     },
+//   },
+//   container
+// );
 
 // function addCardSubmitHandler({name, link}) {
 //   const cardAdded = new Section({
@@ -128,17 +151,6 @@ function editFormSubmitHandler({ firstname, jobinput }) {
 // }
 
 // ----инстанс класса PopupWithForm для addCard
-function addCardSubmitHandler(data) {
-  const card = new Card(data);
-  const cardElement = card.generateCard();
-
-  container.prepend(cardElement);
-}
-
-cardPopupOpen.addEventListener("click", () => {
-  addCardPopup.open();
-  formAddCardValidator.reset();
-});
 
 // ----инстанс класса PopupWithForm для editCard
 // function editProfileSubmitHandler() {
@@ -147,14 +159,6 @@ cardPopupOpen.addEventListener("click", () => {
 
 //   formEditCardValidator.reset();
 // }
-
-// ----инстанс класса UserInfo
-
-// -----валидация форм---------
-
-formAddCardValidator.enableValidation();
-
-formEditCardValidator.enableValidation();
 
 // //функция открытия модалки
 // function openPopup(modal) {
