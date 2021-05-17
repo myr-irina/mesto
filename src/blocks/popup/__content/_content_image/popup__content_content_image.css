@@ -1,8 +1,8 @@
 .popup__content_content_image {
   position: relative;
   box-sizing: border-box;
-  /* max-width: 75vw; */
-  /* max-height: 75vh; */
+  max-width: 75vw;
+  max-height: 75vh;
   width: 100%;
   padding: 0;
   margin: 0;

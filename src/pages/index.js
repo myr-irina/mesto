@@ -32,6 +32,35 @@ import UserInfo from "../components/UserInfo.js";
 
 import "./index.css";
 
+const createCard = (data) => {
+  const card = new Card(data, templateElement, {
+    handleCardClick() {
+      popupWithImage.open(data);
+    },
+  });
+  const cardElement = card.generateCard();
+  return cardElement;
+};
+
+const cardsList = new Section(
+  {
+    items: initialCards,
+    renderer: (data) => {
+      const cardElement = createCard(data);
+      cardsList.addItem(cardElement);
+    },
+  },
+  container
+);
+
+const userinfo = new UserInfo({
+  name: profileTitle,
+  about: profileSubtitle,
+});
+
+const popupWithImage = new PopupWithImage(imgPopup);
+const addCardPopup = new PopupWithForm(cardPopup, addCardSubmitHandler);
+const editProfilePopup = new PopupWithForm(profilePopup, editFormSubmitHandler);
 const formAddCardValidator = new FormValidation(
   validationConfig,
   cardPopupForm
@@ -42,40 +71,7 @@ const formEditCardValidator = new FormValidation(
   profileFormElement
 );
 
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (data) => {
-      const card = new Card(data, templateElement, {
-        handleCardClick() {
-          popupWithImage.open(data);
-        },
-      }).generateCard()
-
-      cardsList.addItem(card);
-    },
-  },
-  container
-);
-
-
-const userinfo = new UserInfo({
-  name: profileTitle, 
-  about: profileSubtitle,
-});
-
-const popupWithImage = new PopupWithImage(imgPopup);
-const addCardPopup = new PopupWithForm(
-  cardPopup,
-  addCardSubmitHandler
-);
-const editProfilePopup = new PopupWithForm(
-  profilePopup,
-  editFormSubmitHandler
-);
-
 function editFormSubmitHandler(data) {
-  console.log(data)
   userinfo.setUserInfo(data.name, data.about);
   editProfilePopup.close();
 }
@@ -84,20 +80,13 @@ profileOpenButton.addEventListener("click", () => {
   nameInput.value = userinfo.getUserInfo().name;
   jobInput.value = userinfo.getUserInfo().about;
   editProfilePopup.open();
-  formEditCardValidator.reset()
+  formEditCardValidator.reset();
 });
 
-
 function addCardSubmitHandler(data) {
-  console.log(data)
-  const card = new Card(data, templateElement, {
-    handleCardClick() {
-      popupWithImage.open(data);
-    },
-  });
-  const cardElement = card.generateCard();
+  const card = createCard(data);
 
-  container.prepend(cardElement);
+  cardsList.addItem(card);
   addCardPopup.close();
 }
 
