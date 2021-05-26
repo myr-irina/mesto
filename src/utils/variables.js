@@ -2,6 +2,7 @@
 export const profilePopup = ".popup_type_edit";
 export const cardPopup = ".popup_type_new-card";
 export const imgPopup = ".popup_type_image";
+export const deletePopup = ".popup_type_delete";
 
 // Находим кнопки открытия модальных окон
 export const profileOpenButton = document.querySelector("#show-popup");

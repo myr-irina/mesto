@@ -6,9 +6,3 @@
   object-fit: cover;
   display: block;
 }
-
-/* @media (max-width: 320px) {
-  .elements__image {
-    height: 40vw;
-  }
-} */

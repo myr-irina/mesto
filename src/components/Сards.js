@@ -1,6 +1,7 @@
 export default class Card {
   constructor(data, cardTemplate, { handleCardClick }) {
     // добавили вторым параметром селектор template-элемента
+    console.log(data)
     this.name = data.name;
     this.link = data.link;
     // this._cardImage = document.querySelector(".elements__image");
