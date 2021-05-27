@@ -6,15 +6,8 @@ export default class Section {
   }
 
   // этот метод отвечает за отрисовку всех элементов
-  renderItems(data) {
-    // Переберем массив _renderedItems
-    if(data) {
-      data.forEach((item) => {
-        this._renderer(item); //// вызываем renderer, передав item
-      });
-      return;
-    }
-    this._renderedItems.forEach((item) => {
+  renderItems(items) {
+   items.forEach((item) => {
       this._renderer(item); //// вызываем renderer, передав item
     });
   } 

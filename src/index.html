@@ -92,27 +92,6 @@
   </div>
   <!-- Попап для редактирования формы -->
 
-  <!-- Попап для обновления формы -->
-  <div class="popup popup_type_update">
-    <div class="popup__content">
-
-      <button type="button" class="popup__close">
-        <img src="<%=require('./images/CloseIcon.svg')%>" alt="кнопка закрытия попапа">
-      </button>
-
-      <h2 class="popup__heading">Обновить аватар</h2>
-      <form class="popup__field-form" action="#" name="user" novalidate>
-        <input class="popup__field-input popup__field-input-link" type="url" name="link" autocomplete="off"
-          id="field-input-link" placeholder="Ссылка на картинку" required>
-        <span class="popup__input-error" id="field-input-link-error">Введите ссылку.</span>
-        <button type="submit" class="popup__button">Сохранить</button>
-      </form>
-
-    </div>
-  </div>
-  <!-- Попап для обновления формы -->
-
-
 
   <!-- Попап для добавления карточек -->
   <div class="popup popup_type_new-card">
@@ -164,6 +143,26 @@
     </div>
   </div>
   <!-- Попап для подтверждения удаления карточки -->
+
+  <!-- Попап для обновления формы -->
+  <div class="popup popup_type_update">
+    <div class="popup__content">
+
+      <button type="button" class="popup__close">
+        <img src="<%=require('./images/CloseIcon.svg')%>" alt="кнопка закрытия попапа">
+      </button>
+
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <form class="popup__field-form popup__field-form-new-avatar" action="#" name="avatar" novalidate>
+        <input class="popup__field-input popup__field-input-link" type="url" name="avatar" autocomplete="off"
+          id="field-input-link" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error" id="field-input-link-error">Введите ссылку.</span>
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form>
+
+    </div>
+  </div>
+  <!-- Попап для обновления формы -->
 
 </body>
 
