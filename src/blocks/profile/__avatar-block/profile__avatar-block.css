@@ -1,5 +1,7 @@
 .profile__avatar-block{
   display: flex;
   position: relative;
+  width: 120px;
+  height: 120px;
 }
 

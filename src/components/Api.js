@@ -4,14 +4,20 @@ export default class Api {
     this._token = token;
   }
 
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`${res.status}`);
+  }
+
   getInitialCards() {
     return fetch(`${this._address}/cards`, {
       headers: {
         authorization: this._token,
       },
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
   }
 
   getUserData() {
@@ -19,13 +25,13 @@ export default class Api {
       headers: {
         authorization: this._token,
       },
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
   }
 
-  setUserData({ name, about }) {
+  setUserData({ name, about, avatar }) {
     return fetch(`${this._address}/users/me`, {
+      method: "PATCH",
       headers: {
         authorization: this._token,
         "Content-Type": "application/json",
@@ -33,10 +39,10 @@ export default class Api {
       body: JSON.stringify({
         name,
         about,
+        avatar,
       }),
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
   }
 
   updateAvatar(link) {
@@ -49,9 +55,8 @@ export default class Api {
       body: JSON.stringify({
         avatar: link
       })
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
   }
 
   createCard({ name, link }) {
@@ -63,38 +68,42 @@ export default class Api {
       },
       body: JSON.stringify({
         name,
-        link,
+        link
       }),
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._address}/cards/${cardId}`, {
+  deleteCard(id) {
+    return fetch(`${this._address}/cards/${id}`, {
       method: "DELETE",
       headers: {
         authorization: this._token,
       },
-      body: JSON.stringify({
-        name,
-        link,
-      }),
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+     
+    })
+    .then(this._checkResponse)
   }
 
-  toggleLikeCard(cardId, like) {
-    return fetch(`${this._address}/cards/like/${cardId}`, {
-      method: like ? "PUT" : "DELETE",     
+  addLike(id) {
+    return fetch(`${this._address}/cards/likes/${id}`, {
+      method: "PUT",     
       headers: {
         authorization: this._token,
         "Content-Type": "application/json",
       },
-    }).then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    });
+    })
+    .then(this._checkResponse)
+  }
+
+  deleteLike(id) {
+    return fetch(`${this._address}/cards/likes/${id}`, {
+      method: "DELETE",     
+      headers: {
+        authorization: this._token,       
+      },
+    })
+    .then(this._checkResponse)
   }
 }
 

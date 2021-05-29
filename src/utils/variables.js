@@ -19,6 +19,7 @@ export const cardPopupClose = document.querySelector(".popup__close");
 
 //Находим форму в DOM
 export const profileFormElement = document.querySelector(".popup__field-form");
+export const avatarFormElement = document.querySelector('.popup__field-form-new-avatar');
 export const nameInput = profileFormElement.querySelector(".popup__field-input-name");
 export const jobInput = profileFormElement.querySelector(".popup__field-input-about");
 export const profileTitle = ".profile__title";

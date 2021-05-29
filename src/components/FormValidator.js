@@ -4,6 +4,7 @@ export default class FormValidation {
     this._buttonElement = this._form.querySelector(
       validationConfig.submitButtonSelector
     );
+   
     this._inactiveButtonClass = validationConfig.inactiveButtonClass;
     this._inputErrorClass = validationConfig.inputErrorClass;
     this._inputList = Array.from(
@@ -14,8 +15,8 @@ export default class FormValidation {
 
   _showInputError = (input, errorMessage) => {
     const errorElement = this._form.querySelector(`#${input.id}-error`);
-
-    errorElement.textContent = errorMessage;
+  
+    errorElement.textContent = errorMessage;   
     errorElement.classList.add(this._inputErrorClass);
     input.classList.add(this._errorOutline);
   };

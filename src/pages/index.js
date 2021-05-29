@@ -1,5 +1,4 @@
 import Card from "../../src/components/Сards.js";
-import initialCards from "../utils/initial-cards.js";
 import FormValidation from "../components/FormValidator.js";
 import {
   profilePopup,
@@ -18,9 +17,9 @@ import {
   profileFormElement,
   templateElement,
   deletePopup,
-  
   avatarUpdatePopup,
   profileAvatarButton,
+  avatarFormElement,
 } from "../utils/variables.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -36,31 +35,27 @@ const api = new Api({
 });
 
 const createCard = (data) => {
-  const card = new Card(data, templateElement, {
-    handleCardClick() {
+  const card = new Card({
+    data: data,
+    cardTemplate: templateElement,
+    handleCardClick: () => {
       popupWithImage.open(data);
     },
+    userId: userinfo.getUserId(),
+    api: api
   });
+
   const cardElement = card.generateCard();
   return cardElement;
 };
 
 const cardsList = new Section(
   {
-    // items: initialCards,
     renderer: (data) => {
       cardsList.addItem(createCard(data));
     },
   },
   container
-);
-
-// Пп 1 и 2: загрузка инфо пользователя с сервера и карточек
-Promise.all([api.getUserData(), api.getInitialCards()]).then(
-  ([userData, initialCards]) => {
-    userinfo.setUserInfo(userData.name, userData.about, userData.avatar);
-    cardsList.renderItems(initialCards);
-  }
 );
 
 const userinfo = new UserInfo({
@@ -69,10 +64,24 @@ const userinfo = new UserInfo({
   avatar: profileAvatar,
 });
 
+// Пп 1 и 2: загрузка инфо пользователя с сервера и карточек
+Promise.all([api.getUserData(), api.getInitialCards()]).then(
+  ([userData, initialCards]) => {
+    userinfo.setUserInfo({
+      name: userData.name,
+      about: userData.about, 
+      avatar: userData.avatar,
+      id: userData._id
+    });
+    cardsList.renderItems(initialCards);
+  }
+);
+
 const popupWithImage = new PopupWithImage(imgPopup);
 const addCardPopup = new PopupWithForm(cardPopup, addCardSubmitHandler);
 const editProfilePopup = new PopupWithForm(profilePopup, editFormSubmitHandler);
-const deleteCardPopup = new PopupWithDeleteForm(deletePopup, deleteCardHandler);
+const deleteCardPopup = new PopupWithDeleteForm(deletePopup);
+
 const formAddCardValidator = new FormValidation(
   validationConfig,
   cardPopupForm
@@ -83,64 +92,55 @@ const formEditCardValidator = new FormValidation(
   profileFormElement
 );
 
+const formUpdateAvatarValidator = new FormValidation(
+  validationConfig,
+  avatarFormElement
+);
+
 //  п.9 Обновление аватара
-const updateAvatarPopup = new PopupWithForm(avatarUpdatePopup, avatarPopupSubmitHandler);
+const updateAvatarPopup = new PopupWithForm(
+  avatarUpdatePopup,
+  avatarPopupSubmitHandler
+);
 
 function avatarPopupSubmitHandler(data) {
-
-  const updateAvatar = document.querySelector('.popup_type_update')
-  const buttonText = updateAvatar.querySelector(".popup__button");
-  
-  buttonText.textContent = "Сохранение...";  
-    api.updateAvatar(data.avatar)
+  api
+    .updateAvatar(data.avatar)
     .then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    })
-    .then((res) => {
-      buttonText.textContent = "Сохранение";
       document.querySelector(profileAvatar).src = res.avatar;
+      updateAvatarPopup.close();
     })
-    .catch(err => console.log(`Ошибка при загрузке фотографии: ${err}`));
-};
-
-function deleteCardHandler() {}
+    .catch((err) => console.log(`Ошибка при загрузке фотографии: ${err}`));
+}
 
 // 3. редактирование профиля
 function editFormSubmitHandler(data) {
-  const buttonText = profilePopup.querySelector(".popup__button");
-  buttonText.textContent = "Сохранение...";
-
-  api.setUserData(data)
-    .then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    })
-    .then((res) => {
-      userinfo.setUserInfo(res.name, res.about);
-      buttonText.textContent = "Сохранение";
+  editProfilePopup._setLoading(true);
+  api
+    .setUserData(data)
+    .then(({name, about, avatar}) => {
+      userinfo.setUserInfo({name, about, avatar});
       editProfilePopup.close();
     })
-    .catch((err) => console.log(`Ошибка при загрузке карточки: ${err}`));
+    .catch((err) => console.log(`Ошибка при обновлении профиля: ${err}`))
+    .finally(() => {
+      editProfilePopup._setLoading(false);
+    });
 }
 
 // п.4 добавление новой карточки
 function addCardSubmitHandler(data) {
-
-  const addCard = document.querySelector('.popup_type_new-card')
-  const buttonText = addCard.querySelector(".popup__button");
-  buttonText.textContent = "Сохранение...";
-
+  addCardPopup._setLoading(true);
   api
     .createCard(data)
-    
-    .then((res) => {
-      return res.ok ? res.json() : Promise.reject(`${res.status}`);
-    })
     .then((res) => {
       cardsList.addItem(createCard(res));
-      buttonText.textContent = "Сохранение";
       addCardPopup.close();
     })
-    .catch((err) => console.log(`Ошибка при загрузке карточки: ${err}`));
+    .catch((err) => console.log(`Ошибка при загрузке карточки: ${err}`))
+    .finally(() => {
+      addCardPopup._setLoading(false);
+    });
 }
 
 profileOpenButton.addEventListener("click", () => {
@@ -155,14 +155,19 @@ cardPopupOpen.addEventListener("click", () => {
   formAddCardValidator.reset();
 });
 
-profileAvatarButton.addEventListener('click', () => {
+profileAvatarButton.addEventListener("click", () => {
   updateAvatarPopup.open();
-})
-
+  formUpdateAvatarValidator.reset();
+});
 
 updateAvatarPopup.setEventListeners();
 addCardPopup.setEventListeners();
 editProfilePopup.setEventListeners();
 popupWithImage.setEventListeners();
+deleteCardPopup.setEventListeners();
 formAddCardValidator.enableValidation();
 formEditCardValidator.enableValidation();
+formUpdateAvatarValidator.enableValidation();
+
+
+

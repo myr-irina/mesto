@@ -32,6 +32,20 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
   }
 
+
+  // // //добавляем логику для кнопки "Сохранить" для UX 
+  _setLoading(isLoading) {
+    this._buttons = Array.from(this._form.querySelectorAll('.popup__button'));
+    this._buttons.forEach((button) => {
+      if (isLoading) {
+        button.textContent = "Сохранение...";
+      } else {
+        button.textContent = "Сохранение";
+      }
+    })
+  }
+  
+
   // setInputValues(values) {
   //   this._inputs = Array.from(this._form.querySelectorAll(".popup__field-input"));
   //   this._inputs.forEach((input) => {
