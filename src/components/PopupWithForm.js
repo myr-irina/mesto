@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
     
     this._form = this._popupElement.querySelector('.popup__field-form');
     this._inputs = Array.from(this._form.querySelectorAll(".popup__field-input"));
+    this._button = this._popupElement.querySelector('.popup__button');
     this._submitHandler = submitHandler;
   }
 
@@ -22,28 +23,27 @@ export default class PopupWithForm extends Popup {
 
   // добавляет обработчик клика иконке закрытия и обработчик сабмита формы
   setEventListeners() {
-    this._form 
-      .addEventListener("submit", (e) => {
-        e.preventDefault();
-        const data = this._getInputValues();
-        this._submitHandler(data);
-      });
+
+    this._form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = this._getInputValues();
+      this._submitHandler(data);
+    });
    
     super.setEventListeners();
   }
 
 
   // // //добавляем логику для кнопки "Сохранить" для UX 
-  _setLoading(isLoading) {
-    this._buttons = Array.from(this._form.querySelectorAll('.popup__button'));
-    this._buttons.forEach((button) => {
+  setLoading(isLoading) {
+    // this._buttons = Array.from(this._form.querySelectorAll('.popup__button'));
+    // this._buttons.forEach((button) => {
       if (isLoading) {
-        button.textContent = "Сохранение...";
+        this._button.textContent = "Сохранение...";
       } else {
-        button.textContent = "Сохранение";
+        this._button.textContent = this._button.ariaLabel;
       }
-    })
-  }
+    }  
   
 
   // setInputValues(values) {

@@ -41,8 +41,20 @@ const createCard = (data) => {
     handleCardClick: () => {
       popupWithImage.open(data);
     },
+    handleCardDelete: () => {
+      deleteCardPopup.open(()=> {
+        deleteCardPopup.setLoading(true);
+        api.deleteCard(data._id)
+        .then(() => {
+          card.deleteButtonClick();
+          deleteCardPopup.close();
+          deleteCardPopup.setLoading(false);
+        })
+        .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`))
+      })
+    },
     userId: userinfo.getUserId(),
-    api: api
+    api: api,
   });
 
   const cardElement = card.generateCard();
@@ -69,9 +81,9 @@ Promise.all([api.getUserData(), api.getInitialCards()]).then(
   ([userData, initialCards]) => {
     userinfo.setUserInfo({
       name: userData.name,
-      about: userData.about, 
+      about: userData.about,
       avatar: userData.avatar,
-      id: userData._id
+      id: userData._id,
     });
     cardsList.renderItems(initialCards);
   }
@@ -104,33 +116,37 @@ const updateAvatarPopup = new PopupWithForm(
 );
 
 function avatarPopupSubmitHandler(data) {
+  updateAvatarPopup.setLoading(true);
   api
     .updateAvatar(data.avatar)
     .then((res) => {
-      document.querySelector(profileAvatar).src = res.avatar;
+      userinfo.setUserAvatar(res.avatar);
       updateAvatarPopup.close();
     })
-    .catch((err) => console.log(`Ошибка при загрузке фотографии: ${err}`));
+    .catch((err) => console.log(`Ошибка при загрузке фотографии: ${err}`))
+    .finally(() => {
+      updateAvatarPopup.setLoading(false);
+    });
 }
 
 // 3. редактирование профиля
 function editFormSubmitHandler(data) {
-  editProfilePopup._setLoading(true);
+  editProfilePopup.setLoading(true);
   api
     .setUserData(data)
-    .then(({name, about, avatar}) => {
-      userinfo.setUserInfo({name, about, avatar});
+    .then(({ name, about, avatar }) => {
+      userinfo.setUserInfo({ name, about, avatar });
       editProfilePopup.close();
     })
     .catch((err) => console.log(`Ошибка при обновлении профиля: ${err}`))
     .finally(() => {
-      editProfilePopup._setLoading(false);
+      editProfilePopup.setLoading(false);
     });
 }
 
 // п.4 добавление новой карточки
 function addCardSubmitHandler(data) {
-  addCardPopup._setLoading(true);
+  addCardPopup.setLoading(true);
   api
     .createCard(data)
     .then((res) => {
@@ -139,8 +155,20 @@ function addCardSubmitHandler(data) {
     })
     .catch((err) => console.log(`Ошибка при загрузке карточки: ${err}`))
     .finally(() => {
-      addCardPopup._setLoading(false);
+      addCardPopup.setLoading(false);
     });
+}
+
+// // // ф-ция коллбэк для удаления карточки
+function deleteCardSubmitHandler() {
+  deleteCardPopup.open(()=> {
+    api.deleteCard(card.getId())
+    .then(() => {
+      card.deleteButtonClick();
+      deleteCardPopup.close();
+    })
+    .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`))
+  })
 }
 
 profileOpenButton.addEventListener("click", () => {
@@ -168,6 +196,3 @@ deleteCardPopup.setEventListeners();
 formAddCardValidator.enableValidation();
 formEditCardValidator.enableValidation();
 formUpdateAvatarValidator.enableValidation();
-
-
-

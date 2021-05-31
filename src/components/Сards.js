@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({data, cardTemplate, handleCardClick, api, userId}) {
+  constructor({ data, cardTemplate, handleCardClick, handleCardDelete, api, userId }) {
     // добавили вторым параметром селектор template-элемента
     this.name = data.name;
     this.link = data.link;
@@ -10,6 +10,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._myId = userId;
     this._api = api;
+    this._handleCardDelete = handleCardDelete;
   }
 
   //создаем DOM разметку
@@ -33,23 +34,22 @@ export default class Card {
     this._cardImage.src = this.link;
     this._cardImage.alt = this.name;
     this._element.querySelector(".elements__title").textContent = this.name;
-    // добавим кол-во лайков
+    // заберем в textcontent кол-во лайков
     this._likeCounter.textContent = this._like.length;
 
-   
     // убираем корзину, если не наша карточка
     if (this._ownerId === this._myId) {
       this._trashButton.classList.remove("elements__button-trash_hidden");
     }
     // закрасим сердечко, если поставила я (мой Id)
     this._like.forEach((item) => {
-      if (item.id === this._myId) {
-        this._likeButton.classList.add('photo-card__icon_type_like-active');
-      }else {
-        this._likeButton.classList.remove('photo-card__icon_type_like-active');
+      if (item._id === this._myId) {
+        this._likeButton.classList.add("elements__button_active");
+      } else {
+        this._likeButton.classList.remove("elements__button_active");
       }
     });
-
+    
     // добавим обработчики
     this._setEventListeners();
     // Вернём элемент наружу
@@ -60,16 +60,17 @@ export default class Card {
     return this._id;
   }
 
+
   _setLikes() {
-    const activeBtnLike = this._likeButton.classList.contains("elements__button_active");
-    
+    const activeBtnLike = this._likeButton.classList.contains(
+      "elements__button_active"
+    );
+
     if (!activeBtnLike) {
-      console.log(this.getId);
-      this
-        ._api
+      this._api
         .addLike(this.getId())
         .then((res) => {
-          const likeQuantity = res.likes.length++;
+          const likeQuantity = res.likes.length;
           this._likeCounter.textContent = likeQuantity;
           this._likeButtonClick();
         })
@@ -89,25 +90,24 @@ export default class Card {
     this._likeButton.classList.toggle("elements__button_active");
   }
 
-  _deleteButtonClick() {
+  deleteButtonClick() {
     this._element.remove();
-
-    this._api.deleteCard(this._id)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`));
   }
 
   _setEventListeners() {
-    this._likeButton.addEventListener("click", () => {
+    this._likeButton.addEventListener("click", (e) => {
+      e.preventDefault();
       this._setLikes();
     });
 
-    this._trashButton.addEventListener("click", (event) => {
-      this._deleteButtonClick(event);
+    this._trashButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      this._handleCardDelete();
     });
-
-    this._cardImage.addEventListener("click", () =>
-      this._handleCardClick(this._name, this._link)
-    );
+    // this._handleCardClick
+    this._cardImage.addEventListener("click", (e) => {
+      e.preventDefault();
+      this._handleCardClick();
+    });
   }
 }

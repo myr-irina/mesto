@@ -7,7 +7,7 @@
   height: 19px;
   padding: 0;
   background: url(../../../images/like.svg) no-repeat center;
-  transition: background-image 0.2s ease;
+  transition: background-image 0.1s ease;
 }
 
 .elements__button:hover{

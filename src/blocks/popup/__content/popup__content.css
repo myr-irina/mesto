@@ -4,7 +4,7 @@
   position: relative;
   box-sizing: border-box;
   max-width: 430px;
-  min-height: 330px;
+  /* min-height: 330px; */
   width: 100%;
   border: 1px solid black;
   background-color: #ffffff;
