@@ -47,10 +47,12 @@ const createCard = (data) => {
         api.deleteCard(data._id)
         .then(() => {
           card.deleteButtonClick();
-          deleteCardPopup.close();
-          deleteCardPopup.setLoading(false);
+          deleteCardPopup.close();          
         })
         .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`))
+        .finally(() => {
+          deleteCardPopup.setLoading(false);
+        });
       })
     },
     userId: userinfo.getUserId(),
@@ -159,17 +161,17 @@ function addCardSubmitHandler(data) {
     });
 }
 
-// // // ф-ция коллбэк для удаления карточки
-function deleteCardSubmitHandler() {
-  deleteCardPopup.open(()=> {
-    api.deleteCard(card.getId())
-    .then(() => {
-      card.deleteButtonClick();
-      deleteCardPopup.close();
-    })
-    .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`))
-  })
-}
+// // ф-ция коллбэк для удаления карточки
+// function deleteCardSubmitHandler() {
+//   deleteCardPopup.open(()=> {
+//     api.deleteCard(card.getId())
+//     .then(() => {
+//       card.deleteButtonClick();
+//       deleteCardPopup.close();
+//     })
+//     .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`))
+//   })
+// }
 
 profileOpenButton.addEventListener("click", () => {
   nameInput.value = userinfo.getUserInfo().name;
